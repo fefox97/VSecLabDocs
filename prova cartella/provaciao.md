@@ -1,6 +1,5 @@
 ---
 title: ciaosssas
-name: provaciao
 template: wiki/flatpage.html
 ---
 

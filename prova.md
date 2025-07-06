@@ -1,6 +1,5 @@
 ---
 title: ciao
-name: prova
 template: wiki/flatpage.html
 ---
 

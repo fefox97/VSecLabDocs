@@ -1,6 +1,5 @@
 ---
 title: ciaosss
-name: ma
 template: wiki/flatpage.html
 ---
 
