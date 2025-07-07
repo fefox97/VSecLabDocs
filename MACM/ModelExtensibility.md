@@ -1,4 +1,6 @@
-# Model Extensibility
+---
+title: Model Extensibility
+---
 
 The MACM model has been designed to support extensibility and customization according to the specific technological domains and use cases.
 
