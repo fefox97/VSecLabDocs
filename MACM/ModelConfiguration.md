@@ -43,9 +43,7 @@ Each asset type $t \in \mathbb{T}$ represents a concrete classification of a nod
 
 The first component of every asset type corresponds to its primary label and determines the high-level role of the asset in the model. The secondary label, if present, provides a more specific categorization within that role.
 
-The following table enumerates all asset types defined in the default MACM configuration, along with their corresponding label pair and a brief description.
-
-<!-- Table omitted for brevity, see original for full list -->
+The [Asset Types Catalog](https://127.0.0.1/catalogs/asset-types) enumerates all asset types defined in the default MACM configuration, along with their corresponding label pair and a brief description.
 
 ### Node Parameter Domain
 
