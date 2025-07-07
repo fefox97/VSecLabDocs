@@ -2,10 +2,10 @@
 title: Model Extensibility
 ---
 
+# Model Extensibility
+
 The MACM model has been designed to support extensibility and customization according to the specific technological domains and use cases.
-
 This section illustrates an example of model extension by introducing support for MQTT-related assets and protocols. These elements are intentionally omitted from the default configuration and added here to demonstrate the flexibility of the modeling framework.
-
 New asset types, protocols, parameters, and dependencies can be seamlessly integrated without altering the core semantics of the model.
 
 **MQTT** (Message Queuing Telemetry Transport) is a lightweight, publish-subscribe network protocol that transports messages between devices. It is designed for connections with remote locations where a small code footprint and minimal network bandwidth are critical. MQTT operates at the application layer of the OSI model and typically runs over TCP as the underlying transport protocol.
@@ -24,7 +24,6 @@ The initial consideration should be the potential expansion of the Primary and S
 ## Asset Types
 
 Let us now consider the potential definition of new Asset Types, to be added to the default ones. In particular, we define two new Asset Types, `Service.MQTTBroker` and `Service.MQTTClient`, which respectively represent an MQTT Broker and an MQTT Client.
-
 Therefore, we define the extended set of asset types as:
 
 $$
@@ -33,21 +32,15 @@ $$
 
 The extension of the asset types is shown in the following table:
 
-| ID | Primary Label | Secondary Label | Name                | Description                                         | References |
-|----|---------------|-----------------|---------------------|-----------------------------------------------------|------------|
-| 49 | Service       | SaaS            | Service.MQTTBroker  | An MQTT broker service for IoT device communication. | [1][2][3]  |
-| 50 | Service       | SaaS            | Service.MQTTClient  | An MQTT client service for IoT device communication. | [1][2][3]  |
-
-[1]: https://doi.org/10.1109/ESSecA.2022.00010
-[2]: https://doi.org/10.1109/EdgeBased2021
-[3]: https://doi.org/10.1109/ThreatModeling2020
+| ID | Primary Label | Secondary Label | Name                | Description                                         |
+|----|---------------|-----------------|---------------------|-----------------------------------------------------|
+| 49 | Service       | SaaS            | Service.MQTTBroker  | An MQTT broker service for IoT device communication. |
+| 50 | Service       | SaaS            | Service.MQTTClient  | An MQTT client service for IoT device communication. |
 
 ## Relationships
 
 As for relationships, this extension does not require the addition of new relationships or new parameters.
-
 However, since this is an extension relating to a network protocol, it is required to add that protocol among those supported. In particular, it is a protocol belonging to the application OSI level.
-
 We extend the core sets and mappings as follows to integrate support for MQTT.
 
 - **Protocol Set:**
@@ -55,16 +48,19 @@ We extend the core sets and mappings as follows to integrate support for MQTT.
   $$
   \mathcal{P} \leftarrow \mathcal{P} \cup \{ \texttt{MQTT} \}
   $$
+
 - **Protocol-to-Layer Mapping:**
 
   $$
   \texttt{ProtocolLayerMapping} \leftarrow \texttt{ProtocolLayerMapping} \cup \{ (\texttt{MQTT}, \texttt{Application}) \}
   $$
+
 - **Protocol-to-Relation Mapping:**
 
   $$
   \texttt{ProtocolRelationMapping} \leftarrow \texttt{ProtocolRelationMapping} \cup \{ (\texttt{MQTT}, \texttt{uses}) \}
   $$
+
 - **Protocol Semantics Triples:**
 
   $$
