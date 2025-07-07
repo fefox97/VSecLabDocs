@@ -17,7 +17,7 @@ Unless otherwise stated, all constraints, rules, and type-checking functions des
 We define the set of admissible primary labels:
 
 $$
-L_P = \{ \texttt{CSC}, \texttt{CSP}, \texttt{Service}, \texttt{HW}, \texttt{Network}, \texttt{Data} \}
+L_P = \\{ \texttt{CSC}, \texttt{CSP}, \texttt{Service}, \texttt{HW}, \texttt{Network}, \texttt{Data} \\}
 $$
 
 ### Secondary Labels
@@ -26,10 +26,12 @@ For each $\ell_p \in L_P$, we define the associated secondary label set $L_S(\el
 
 $$
 \begin{aligned}
-    L_S(\texttt{Network}) &= \{ \texttt{5G}, \texttt{WAN}, \texttt{LAN}, \texttt{PAN} \} \\
-    L_S(\texttt{Service}) &= \{ \texttt{5G}, \texttt{COTS}, \texttt{IaaS}, \texttt{PaaS}, \texttt{SaaS} \} \\
-    L_S(\texttt{HW}) &= \{ \texttt{Server}, \texttt{IoT}, \texttt{Device}, \texttt{Microcontroller}, \texttt{SOC} \} \\
-    L_S(\texttt{CSC}) &= \emptyset, \quad L_S(\texttt{CSP}) = \emptyset, \quad L_S(\texttt{Data}) = \emptyset
+    & L_S(\texttt{Network}) = \\{ \texttt{5G}, \texttt{WAN}, \texttt{LAN}, \texttt{PAN} \\} \cr
+    & L_S(\texttt{Service}) = \\{ \texttt{5G}, \texttt{COTS}, \texttt{IaaS}, \texttt{PaaS}, \texttt{SaaS} \\} \cr
+    & L_S(\texttt{HW}) = \\{ \texttt{Server}, \texttt{IoT}, \texttt{Device}, \texttt{Microcontroller}, \texttt{SOC} \\} \cr
+    & L_S(\texttt{CSC}) = \emptyset \cr
+    & L_S(\texttt{CSP}) = \emptyset \cr
+    & L_S(\texttt{Data}) = \emptyset
 \end{aligned}
 $$
 
@@ -37,7 +39,7 @@ $$
 
 This section presents the set of asset types supported by the default MACM configuration.
 
-Each asset type $t \in \mathbb{T}$ represents a concrete classification of a node within the system and is associated with a primary label $\ell_p \in L_P$ and a secondary label $\ell_s \in \mathbb{L}_S \cup \{ \emptyset \}$. While the asset type is not necessarily a direct composition of its labels, it is uniquely related to a pair $(\ell_p, \ell_s)$ through the function $\texttt{LabelPair}$, as defined in the formal specification.
+Each asset type $t \in \mathbb{T}$ represents a concrete classification of a node within the system and is associated with a primary label $\ell_p \in L_P$ and a secondary label $\ell_s \in \mathbb{L}_S \cup \\{ \emptyset \\}$. While the asset type is not necessarily a direct composition of its labels, it is uniquely related to a pair $(\ell_p, \ell_s)$ through the function $\texttt{LabelPair}$, as defined in the formal specification.
 
 The first component of every asset type corresponds to its primary label and determines the high-level role of the asset in the model. The secondary label, if present, provides a more specific categorization within that role.
 
@@ -54,12 +56,12 @@ In the default configuration of the MACM model, a single parameter is defined fo
 The set of admissible parameter keys for nodes is defined as:
 
 $$
-\mathcal{K}_n = \{\texttt{compromise\_state}\}
+\mathcal{K}_n = \\{\texttt{compromise\_state}\\}
 $$
 
 #### Admissible Values
 
-Let $\mathcal{CS} = \{n, p, f, ?\}$ denote the compromise state alphabet, where:
+Let $\mathcal{CS} = \\{n, p, f, ?\\}$ denote the compromise state alphabet, where:
 
 - **n** = not compromised
 - **p** = partially compromised
@@ -94,7 +96,7 @@ $$
 The parameter `compromise_state` is allowed for all asset types:
 
 $$
-\forall t \in T, \quad \texttt{AllowedParams}_n(t) = \{\texttt{compromise\_state}\}
+\forall t \in T, \quad \texttt{AllowedParams}_n(t) = \\{\texttt{compromise\_state}\\}
 $$
 
 This parameter provides a uniform mechanism to annotate nodes with structured compromise information across multiple security properties, enabling advanced reasoning tasks such as impact analysis, recursive threat propagation, and multi-dimensional risk modeling.
@@ -110,7 +112,7 @@ $$
 While the notation $\texttt{compromise\_state}(n)$ is used here for clarity, it is formally an abbreviation. In the MACM model, parameter values are stored as key-value pairs in the node's parameter set $P_n$, i.e.,
 
 $$
-(\texttt{compromise\_state}, \{(n, p, n, f, n, ?)\\}) \in P_n.
+(\texttt{compromise\_state}, \\{(n, p, n, f, n, ?)\\}) \in P_n.
 $$
 
 This corresponds to the following security status:
@@ -131,7 +133,7 @@ Such a configuration reflects a scenario where the node’s authentication mecha
 We define the set of admissible relationship types:
 
 $$
-R = \{ \texttt{uses}, \texttt{hosts}, \texttt{provides}, \texttt{connects} \}
+R = \\{ \texttt{uses}, \texttt{hosts}, \texttt{provides}, \texttt{connects} \\}
 $$
 
 ### Relationship Parameter Domain
@@ -139,8 +141,8 @@ $$
 We define all the parameters eligible for relationships:
 
 $$
-\mathcal{K}_e = \{\texttt{data\_link\_protocol},\; \texttt{network\_protocol},\; \texttt{transport\_protocol}, \\
-                   \texttt{session\_protocol},\; \texttt{presentation\_protocol},\; \texttt{application\_protocol} \}
+\mathcal{K}_e = \\{ \texttt{data\_link\_protocol}, \texttt{network\_protocol}, \texttt{transport\_protocol},
+                   \texttt{session\_protocol}, \texttt{presentation\_protocol}, \texttt{application\_protocol} \\}
 $$
 
 ### Supported Protocols per Relationship Type
@@ -152,7 +154,7 @@ In this section, we define the set of protocols that are admissible for each rel
 Let $\mathcal{L}$ be the set of ISO/OSI layers. Each layer $\lambda \in \mathcal{L}$ represents a conceptual level in the standardized communication stack, from physical signal transmission to high-level application semantics.
 
 $$
-\mathcal{L} = \{\texttt{Physical},\;\texttt{Data Link},\;\texttt{Network},\;\texttt{Transport},\;\texttt{Session},\;\texttt{Presentation},\;\texttt{Application}\}
+\mathcal{L} = \\{\texttt{Physical},\;\texttt{Data Link},\;\texttt{Network},\;\texttt{Transport},\;\texttt{Session},\;\texttt{Presentation},\;\texttt{Application}\\}
 $$
 
 These layers provide the foundation for classifying supported protocols within the model, and are referenced in the definition of the `ProtocolLayerMapping` relation.
@@ -239,20 +241,20 @@ Semantic constraints, while optional, highlight potential misconfigurations, suc
 Let
 
 $$
-\begin{align*}
-    \texttt{AllowedPattern} = \{ 
-        &(\texttt{CSC}, \texttt{uses}, \texttt{Service}), \\
-        &(\texttt{Service}, \texttt{uses}, \texttt{Service}), \\
-        &(\texttt{CSP}, \texttt{provides}, \texttt{Service}), \\
-        &(\texttt{CSP}, \texttt{provides}, \texttt{Network}), \\
-        &(\texttt{CSP}, \texttt{provides}, \texttt{HW}), \\
-        &(\texttt{Service}, \texttt{hosts}, \texttt{Service}), \\
-        &(\texttt{HW}, \texttt{hosts}, \texttt{HW}), \\
-        &(\texttt{HW}, \texttt{hosts}, \texttt{Service}), \\
-        &(\texttt{Network}, \texttt{connects}, \texttt{IaaS}), \\
-        &(\texttt{Network}, \texttt{connects}, \texttt{HW}) 
-    \}
-\end{align*}
+\begin{aligned}
+    \texttt{AllowedPattern} = \\{ 
+        & (\texttt{CSC}, \texttt{uses}, \texttt{Service}), \cr
+        & (\texttt{Service}, \texttt{uses}, \texttt{Service}), \cr
+        & (\texttt{CSP}, \texttt{provides}, \texttt{Service}), \cr
+        & (\texttt{CSP}, \texttt{provides}, \texttt{Network}), \cr
+        & (\texttt{CSP}, \texttt{provides}, \texttt{HW}), \cr
+        & (\texttt{Service}, \texttt{hosts}, \texttt{Service}), \cr
+        & (\texttt{HW}, \texttt{hosts}, \texttt{HW}), \cr
+        & (\texttt{HW}, \texttt{hosts}, \texttt{Service}), \cr
+        & (\texttt{Network}, \texttt{connects}, \texttt{IaaS}), \cr
+        & (\texttt{Network}, \texttt{connects}, \texttt{HW})
+    \\}
+\end{aligned}
 $$
 
 Then:
@@ -268,7 +270,7 @@ This guarantees that every service has a unique deployment context in the system
 
 $$
 \forall n \in N \text{ with } \texttt{PrimaryLabel}(n)=\texttt{Service}, \quad 
-\bigl|\{(n',r,n,P_e) \in E \mid r \in \{\texttt{hosts},\texttt{provides}\} \}\bigr| = 1
+\bigl|\\{(n',r,n,P_e) \in E \mid r \in \\{\texttt{hosts},\texttt{provides}\\} \\}\bigr| = 1
 $$
 
 > **Remark:** This relies on the snapshot assumption of the MACM model. In design-time scenarios or highly dynamic infrastructures, this condition applies to the specific instance of the architecture captured by the model, and not to the system's full lifecycle.
@@ -282,7 +284,7 @@ This ensures that functional dependencies (captured by `uses`) are semantically 
 Formally, let $G' = (N, E')$ be the subgraph of the MACM obtained by removing all `uses` relationships:
 
 $$
-E' = \{ (n_s, n_t) \mid (n_s, r, n_t, P_e) \in E,\; r \neq \texttt{uses} \}
+E' = \\{ (n_s, n_t) \mid (n_s, r, n_t, P_e) \in E,\; r \neq \texttt{uses} \\}
 $$
 
 Then:
@@ -312,11 +314,11 @@ Every service node that is not itself of type `Firmware` or `OS` must be hosted 
 Formally:
 
 $$
-\forall (n_h, \texttt{hosts}, n_s, P_e) \in E, \\
-\texttt{PrimaryLabel}(n_s) = \texttt{Service} \wedge \\
-\texttt{SecondaryLabel}(n_s) \notin \{ \texttt{Firmware}, \texttt{OS} \} \\
-\Rightarrow \\
-\texttt{AssetType}(n_h) \in \{ (\texttt{Service}, \texttt{Firmware}),\; (\texttt{Service}, \texttt{OS}) \}
+\forall (n_h, \texttt{hosts}, n_s, P_e) \in E,
+\texttt{PrimaryLabel}(n_s) = \texttt{Service} \wedge
+\texttt{SecondaryLabel}(n_s) \notin \\{ \texttt{Firmware}, \texttt{OS} \\}
+\Rightarrow
+\texttt{AssetType}(n_h) \in \\{ (\texttt{Service}, \texttt{Firmware}),\; (\texttt{Service}, \texttt{OS}) \\}
 $$
 
 ### Syntactic Constraint: HW nodes can only host Firmware or OS services
@@ -326,9 +328,7 @@ If a node with asset type in category `HW` hosts a `Service`, that service must 
 Formally:
 
 $$
-\forall (n_s, \texttt{hosts}, n_t, P_e) \in E, \\
-\texttt{PrimaryLabel}(n_s) = \texttt{HW} \wedge \texttt{PrimaryLabel}(n_t) = \texttt{Service} \\
-\Rightarrow \texttt{AssetType}(n_t) \in \{ \texttt{Service.Firmware}, \texttt{Service.OS} \}
+\forall (n_s, \texttt{hosts}, n_t, P_e) \in E, \texttt{PrimaryLabel}(n_s) = \texttt{HW} \wedge \texttt{PrimaryLabel}(n_t) = \texttt{Service} \Rightarrow \texttt{AssetType}(n_t) \in \\{ \texttt{Service.Firmware}, \texttt{Service.OS} \\}
 $$
 
 ### Semantic Constraint: Default Value Cardinality for Protocol Parameters
@@ -338,8 +338,8 @@ In the default MACM configuration, each protocol parameter key is assigned an ad
 $$
 \texttt{ValueCardinality}(k) =
 \begin{cases}
-(0,\;1) & \text{if } k \in \{\texttt{data\_link\_protocol},\;\texttt{network\_protocol},\;\texttt{transport\_protocol}, \\
-    \texttt{session\_protocol},\;\texttt{presentation\_protocol}\} \\
+(0,\;1) & \text{if } k \in \\{\texttt{data\_link\_protocol},\;\texttt{network\_protocol},\;\texttt{transport\_protocol}, \cr
+    \texttt{session\_protocol},\;\texttt{presentation\_protocol}\\} \cr
 (0,\;+\infty) & \text{if } k = \texttt{application\_protocol}
 \end{cases}
 $$
