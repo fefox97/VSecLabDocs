@@ -201,7 +201,7 @@ Each triple $(p, \lambda, r) \in \texttt{ProtocolSemantics}$ expresses that:
 - protocol $p$ is valid as a value for the corresponding parameter key associated with $\lambda$
 - protocol $p$ is allowed in the context of relationship type $r \in R$
 
-This relation provides a unified semantics for protocol parameters in the MACM model and is defined extensionally by the supported protocols table.
+This relation provides a unified semantics for protocol parameters in the MACM model and is defined extensionally by the supported [Protocols Catalog](https://127.0.0.1/catalogs/protocols).
 
 #### Protocol Dependencies
 
@@ -217,9 +217,12 @@ Each element $(p_h, k_l, p_l) \in \texttt{ProtocolDependencies}$ expresses the f
 
 If a relationship includes a parameter key $k_h \in \mathcal{K}_e$ whose associated value set contains the protocol $p_h \in \mathcal{P}$, then it must also include a parameter key $k_l \in \mathcal{K}_e$ whose associated value set contains the protocol $p_l \in \mathcal{P}$, where $k_l$ typically corresponds to a lower OSI layer.
 
-This dependency ensures semantic coherence across protocol stacks within a relationship by enforcing mandatory protocol compositions.
+This dependency ensures semantic coherence across protocol stacks within a relationship by enforcing mandatory protocol compositions. The following table contains some examples of such dependencies.
 
-<!-- Table omitted for brevity, see original for full list -->
+| **High-Level Protocol ($p_h$)** | **Required Key ($k_l$)**      | **Required Protocol ($p_l$)** |
+|:-------------------------------|:------------------------------|:------------------------------|
+| `TLS`                          | `transport_protocol`          | `TCP`                         |
+| `DTLS`                         | `transport_protocol`          | `UDP`                         |
 
 ## Constraints
 
