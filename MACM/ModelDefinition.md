@@ -68,12 +68,12 @@ maps each primary label to its corresponding set of valid secondary labels. The 
 ### Asset Type Set
 Let $\mathbb{T}$ be the universal set of asset types in the MACM model.
 
-Each asset type $t \in \mathbb{T}$ is uniquely associated with a primary label $\ell_p \in L_P$ and a secondary label $\ell_s \in \mathbb{L}_S \cup \{ \emptyset \}$.
+Each asset type $t \in \mathbb{T}$ is uniquely associated with a primary label $\ell_p \in L_P$ and a secondary label $\ell_s \in \mathbb{L}_S \cup \\{ \emptyset \\}$.
 
 We define a total mapping:
 
 $$
-\texttt{LabelPair} : \mathbb{T} \rightarrow L_P \times (\mathbb{L}_S \cup \{ \emptyset \})
+\texttt{LabelPair} : \mathbb{T} \rightarrow L_P \times (\mathbb{L}_S \cup \\{ \emptyset \\})
 $$
 
 such that for each asset type $t \in \mathbb{T}$, we have:
@@ -142,7 +142,7 @@ where:
 
 - $\texttt{id} \in \mathbb{ID}$ is a unique identifier.
 - $\ell_p \in L_P$ is the primary label (mandatory).
-- $\ell_s \in L_S(\ell_p) \cup \{ \emptyset \}$ is the secondary label (optional).
+- $\ell_s \in L_S(\ell_p) \cup \\{ \emptyset \\}$ is the secondary label (optional).
 - $t \in \mathbb{T}$ is the asset type (mandatory).
 - $P_n \subseteq \mathcal{K}_n \times 2^{\mathcal{V}_n}$ is an optional set of parameter key-set pairs associated with the node.
 
@@ -186,7 +186,7 @@ $$
 $$
 
 $$
-\texttt{SecondaryLabel} : N \rightarrow \mathbb{L}_S \cup \{ \emptyset \},\qquad \texttt{SecondaryLabel}(n) = \ell_s
+\texttt{SecondaryLabel} : N \rightarrow \mathbb{L}_S \cup \\{ \emptyset \\},\qquad \texttt{SecondaryLabel}(n) = \ell_s
 $$
 
 These functions allow explicit access to the label components of a node and are used in the semantic constraints and asset type construction.
@@ -286,7 +286,7 @@ The MACM model must be weakly connected.
 Let $G = (N, E')$ be the undirected version of the relationship graph, where:
 
 $$
-E' = \{ \{n_s, n_t\} \mid (n_s, r, n_t) \in E \}
+E' = \\{ \\{n_s, n_t\\} \mid (n_s, r, n_t) \in E \\}
 $$
 
 Then, for every pair of nodes $n_i, n_j \in N$, there exists an undirected path in $G$ connecting them:
@@ -304,7 +304,7 @@ Let $R_{\mathrm{acyclic}} \subseteq R$ be the subset of relationship types that 
 Let $G_{\mathrm{acyc}} = (N, E_{\mathrm{acyc}})$ be the directed subgraph, where:
 
 $$
-E_{\mathrm{acyc}} = \{ (n_s, n_t, P_e) \mid (n_s, r, n_t, P_e) \in E,\; r \in R_{\mathrm{acyclic}} \}
+E_{\mathrm{acyc}} = \\{ (n_s, n_t, P_e) \mid (n_s, r, n_t, P_e) \in E,\; r \in R_{\mathrm{acyclic}} \\}
 $$
 
 Then, the subgraph $G_{\mathrm{acyc}}$ must not contain cycles. That is:
