@@ -43,7 +43,7 @@ Each asset type $t \in \mathbb{T}$ represents a concrete classification of a nod
 
 The first component of every asset type corresponds to its primary label and determines the high-level role of the asset in the model. The secondary label, if present, provides a more specific categorization within that role.
 
-The [Asset Types Catalog](https://127.0.0.1/catalogs/asset-types) enumerates all asset types defined in the default MACM configuration, along with their corresponding label pair and a brief description.
+The [Asset Types Catalog](https://pennet.vseclab.it/catalogs/asset-types) enumerates all asset types defined in the default MACM configuration, along with their corresponding label pair and a brief description.
 
 ### Node Parameter Domain
 
@@ -201,7 +201,7 @@ Each triple $(p, \lambda, r) \in \texttt{ProtocolSemantics}$ expresses that:
 - protocol $p$ is valid as a value for the corresponding parameter key associated with $\lambda$
 - protocol $p$ is allowed in the context of relationship type $r \in R$
 
-This relation provides a unified semantics for protocol parameters in the MACM model and is defined extensionally by the supported [Protocols Catalog](https://127.0.0.1/catalogs/protocols).
+This relation provides a unified semantics for protocol parameters in the MACM model and is defined extensionally by the supported [Protocols Catalog](https://pennet.vseclab.it/catalogs/protocols).
 
 #### Protocol Dependencies
 
