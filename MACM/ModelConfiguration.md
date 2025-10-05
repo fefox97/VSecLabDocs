@@ -14,8 +14,8 @@ We define the set of admissible primary labels $L_P = \{ \mathtt{Party}, \mathtt
 
 For each $ \ell_p \in L_P $, the associated secondary label set $LS(\ell_p) \subseteq L_S $ are:
 
-
-\begin{align}
+$$
+\begin{aligned}
     LS(\mathtt{Network}) &= \{ \mathtt{WAN}, \mathtt{LAN}, \mathtt{PAN} \} \\
     LS(\mathtt{CSP}) &= \emptyset\\
     LS(\mathtt{Virtual}) &= \{\mathtt{VM}, \mathtt{Container}\}\\
@@ -24,8 +24,8 @@ For each $ \ell_p \in L_P $, the associated secondary label set $LS(\ell_p) \sub
     LS(\mathtt{Service}) &= \{ \mathtt{App}, \mathtt{Server} \} \\
     LS(\mathtt{Party}) &= \{ \mathtt{Human}, \mathtt{LegalEntity}, \mathtt{Group} \} \\
     LS(\mathtt{HW}) &= \{ \mathtt{Server}, \mathtt{IoT}, \mathtt{Device}, \mathtt{Microcontroller}, \mathtt{SOC}, \mathtt{MEC}, \mathtt{PC} \}
-\end{align}
-
+\end{aligned}
+$$
 
 ## Relationship Types
 
@@ -51,7 +51,7 @@ The primary labels of the source and target nodes, together with the relationshi
 
 The Property configuration within the schema is defined through the function $\beta$, as introduced in the *Macm Property Graph Schema*, that assigns to each pair $(PrimaryLabel,~SecondaryLabel)$ or to each edge type the admissible properties and their corresponding datatype.
 
-According to the definition, we would need to list a potentially long set of entries of the form $\beta\bigl((x,y),p\bigr)=q$, where $x$ is the primary label, $y$ is the secondary label, $p$ is the property, and $q$ is the datatype. Since these properties apply to all nodes regardless of type, we will use the wildcard pair $(*,*)$ to denote all node types and thus simplify the configuration.
+According to the definition, we would need to list a potentially long set of entries of the form $\beta\bigl((x,y),p\bigr)=q$, where $x$ is the primary label, $y$ is the secondary label, $p$ is the property, and $q$ is the datatype. Since these properties apply to all nodes regardless of type, we will use the wildcard pair $(\cdot,\cdot)$ to denote all node types and thus simplify the configuration.
 
 As previously stated in the introduction of this section, there are three mandatory properties for nodes: the ID, the name, and the Asset Type. In particular, the Asset Type represents an additional, fine-grained classification of an asset. An Asset Type is tightly coupled with the concepts of Primary and Secondary Label. Indeed, given an Asset Type, the pair $(PrimaryLabel, SecondaryLabel)$ is uniquely determined. The list of all Asset Types defined in this configuration, along with their corresponding label pair and a brief description, is available in the [Asset Type Catalogue](https://pennet.vseclab.it/catalogs/asset-types).
 We now introduce the following definition, useful for expressing some constraints.
@@ -65,7 +65,7 @@ Therefore, the following configurations apply to the nodes:
 
 $$
 \begin{aligned}
-    \beta\bigl((*,*),id\bigr) &= \mathtt{Integer} \\ \beta\bigl((*,*),name\bigr) &= \beta\bigl((*,*),asset\_type\bigr)=\mathtt{String}
+    \beta\bigl((\cdot,\cdot),id\bigr) &= \mathtt{Integer} \\ \beta\bigl((\cdot,\cdot),name\bigr) &= \beta\bigl((\cdot,\cdot),asset\_type\bigr)=\mathtt{String}
 \end{aligned}
 $$
 
@@ -74,11 +74,11 @@ In terms of the edge properties configuration, properties are defined for the pr
 Each layer is associated with a property:
 
 $$
-\begin{align*}
+\begin{aligned}
     p \in O = \{ & \mathtt{data\_link\_protocol}, \mathtt{network\_protocol}, \\
     & \mathtt{transport\_protocol}, \mathtt{session\_protocol}, \\
     & \mathtt{presentation\_protocol}, \mathtt{application\_protocol} \}
-\end{align*}
+\end{aligned}
 $$
 
 The following configuration applies:
@@ -88,8 +88,8 @@ The following configuration applies:
 
 At this point, it is necessary to determine which of the above configurations $\beta(\cdot,\cdot)$ belong to the special sets $P_m$ (mandatory properties), $P_o$ (optional properties), or $P_u$ (properties with unique values):
 
-- $((*, *), id) \in P_u$
-- $\forall x \in \{ ((*, *), name),\; ((*, *), asset\_type) \},\; x \in P_m$
+- $((\cdot, \cdot), id) \in P_u$
+- $\forall x \in \{ ((\cdot, \cdot), name),\; ((\cdot, \cdot), asset\_type) \},\; x \in P_m$
 - $$
     \forall x \in \left\{
     \begin{array}{l}
@@ -108,7 +108,7 @@ Since $P_u \subseteq P_m$, the property $id$ is both unique and mandatory. The c
 
 | Property                                     | Cardinality |
 |-----------------------------------------------------|----------------------|
-| $((*,*),id)$, $((*,*),name)$, $((*,*),asset\_type)$ | $(1,1)$              |
+| $((\cdot,\cdot),id)$, $((\cdot,\cdot),name)$, $((\cdot,\cdot),asset\_type)$ | $(1,1)$              |
 | $(uses, presentation\_protocol)$                    | $(0,1)$              |
 | $(uses, application\_protocol)$                     | $(0,+\infty)$        |
 
@@ -134,7 +134,7 @@ $$
 The second constraint requires that each service node must be hosted or provided by exactly one other node. This guarantees that every service has a unique deployment context in the system.
 
 $$
-    \forall n_t \in N: \lambda_N(n_t)=(\mathtt{Service},*), \exists! n_s \in N, \exists e \in E:\lambda_E(e) \in \{\mathtt{hosts},\mathtt{provides}\} \land \rho(e) = (n_s,n_t)
+    \forall n_t \in N: \lambda_N(n_t)=(\mathtt{Service},\cdot), \exists! n_s \in N, \exists e \in E:\lambda_E(e) \in \{\mathtt{hosts},\mathtt{provides}\} \land \rho(e) = (n_s,n_t)
 $$
 
 This constraint relies on the snapshot assumption of the MACM model (see Model Definition). In design-time scenarios or highly dynamic infrastructures, this condition applies to the specific instance of the architecture captured by the model, and not to the system's full lifecycle.
@@ -153,7 +153,7 @@ The following rule defines that a
 $\mathtt{SystemLayer.OS}$ can host only $\mathtt{SystemLayer.ContainerRuntime}$ or $\mathtt{SystemLayer.HyperVisor}$ nodes.
 
 $$
-    \forall e \in E,  \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = \lambda_N(n_t) = \mathtt{(SystemLayer, *)} \big) \implies \big( \sigma(n_s, \mathtt{asset\_type}) = \mathtt{"SystemLayer.OS"} \;\land 
+    \forall e \in E,  \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = \lambda_N(n_t) = \mathtt{(SystemLayer, \cdot)} \big) \implies \big( \sigma(n_s, \mathtt{asset\_type}) = \mathtt{"SystemLayer.OS"} \;\land 
     \sigma(n_t, \mathtt{asset\_type}) \in \{ \mathtt{"SystemLayer.ContainerRuntime"}, \mathtt{"SystemLayer.HyperVisor"} \} \big)
 $$
 
@@ -162,7 +162,7 @@ $$
 The second relationship pattern we wish to constrain is $\delta(\mathtt{SystemLayer,Virtual})=\mathtt{hosts}$. In this case, since the Primary Label $\mathtt{Virtual}$ is used to represent either virtual machines (of type $\mathtt{Virtual.VM}$) or containers (of type $\mathtt{Virtual.Container}$), only the following relationships are valid: $\mathtt{SystemLayer.ContainerRuntime}$ $\mathtt{hosts}$ $\mathtt{Virtual.Container}$ and $\mathtt{SystemLayer.HyperVisor}$ $\mathtt{hosts}$ $\mathtt{Virtual.VM}$.
 
 $$
-    \forall e \in E, \big( \lambda_E(e) = \mathtt{"hosts"} \;\land\; \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (SystemLayer, *) \;\land\; \lambda_N(n_t) = (Virtual, *) \implies \big( \sigma(n_s, \mathtt{asset\_type}) \in \{ \mathtt{"SystemLayer.ContainerRuntime"}, \mathtt{"SystemLayer.HyperVisor"} \} \big), \\
+    \forall e \in E, \big( \lambda_E(e) = \mathtt{"hosts"} \;\land\; \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (SystemLayer, \cdot) \;\land\; \lambda_N(n_t) = (Virtual, \cdot) \implies \big( \sigma(n_s, \mathtt{asset\_type}) \in \{ \mathtt{"SystemLayer.ContainerRuntime"}, \mathtt{"SystemLayer.HyperVisor"} \} \big), \\
     \sigma(n_t,asset\_type) =
     \begin{cases}
         \begin{alignedat}{2}
@@ -179,7 +179,7 @@ Regarding SystemLayer nodes that host Service nodes, the former can only be oper
 If a SystemLayer node hosts a Service node, the source node must be of type $\mathtt{SystemLayer.OS}$ or $\mathtt{SystemLayer.Firmware}$.
 
 $$
-    \forall e \in E,\; \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (\mathtt{SystemLayer},*) \land \lambda_N(n_t) = (\mathtt{Service}, *) \big) \implies \sigma(n_s, \mathtt{asset\_type}) \in \{ \mathtt{"SystemLayer.OS"}, \mathtt{"SystemLayer.Firmware"} \}
+    \forall e \in E,\; \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (\mathtt{SystemLayer},\cdot) \land \lambda_N(n_t) = (\mathtt{Service}, \cdot) \big) \implies \sigma(n_s, \mathtt{asset\_type}) \in \{ \mathtt{"SystemLayer.OS"}, \mathtt{"SystemLayer.Firmware"} \}
 $$
 
 ### Virtual hosting SystemLayer node validity
@@ -189,7 +189,7 @@ Furthermore, with regard to nodes of type $\mathtt{SystemLayer}$, we also want t
 If a Virtual node hosts a SystemLayer node, the target node must be of type $\mathtt{SystemLayer.OS}$ or $\mathtt{SystemLayer.Firmware}$.
 
 $$
-    \forall e \in E, \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (\mathtt{Virtual},*) \land \lambda_N(n_t) = (\mathtt{SystemLayer},*) \big) \implies \big( \sigma(n_t, \mathtt{asset\_type}) \in \{ \mathtt{"SystemLayer.OS"}, \mathtt{"SystemLayer.Firmware"} \} \big)
+    \forall e \in E, \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (\mathtt{Virtual},\cdot) \land \lambda_N(n_t) = (\mathtt{SystemLayer},\cdot) \big) \implies \big( \sigma(n_t, \mathtt{asset\_type}) \in \{ \mathtt{"SystemLayer.OS"}, \mathtt{"SystemLayer.Firmware"} \} \big)
 $$
 
 ### Hardware hosting SystemLayer node validity
@@ -199,7 +199,7 @@ A final constraint concerning $\mathtt{SystemLayer}$ nodes aims to restrict the 
 If a HW (hardware) node hosts a SystemLayer node, the target node can not be of type $\mathtt{SystemLayer.ContainerRuntime}$.
 
 $$
-    \forall e \in E,\; \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (\mathtt{HW},*) \land \lambda_N(n_t) = (\mathtt{SystemLayer},*) \big) \implies \sigma(n_t, \mathtt{asset\_type}) \neq \mathtt{"SystemLayer.ContainerRuntime"}
+    \forall e \in E,\; \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (\mathtt{HW},\cdot) \land \lambda_N(n_t) = (\mathtt{SystemLayer},\cdot) \big) \implies \sigma(n_t, \mathtt{asset\_type}) \neq \mathtt{"SystemLayer.ContainerRuntime"}
 $$
 
 ### Protocol validity
