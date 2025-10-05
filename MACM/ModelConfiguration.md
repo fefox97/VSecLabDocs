@@ -2,362 +2,214 @@
 title: Model Configuration
 ---
 
-# Model Configuration
+# Schema Configuration
 
-In this section, we define the concrete instantiation of the sets and functions introduced in the formal definition of the MACM model. While previous sections described the abstract structure of MACM as a generic and parametric formalism, here we specify the exact values adopted in a particular domain-specific configuration.
+So far, we have provided the definition of a MACM model as a Property Graph and formalized its schema. At this point, the remaining step is to configure the schema by explicitly specifying all the sets defined above.
 
-This configuration establishes the permitted primary and secondary labels, the derived asset types, the allowed relationship types, and the structure of parameter keys and values. These elements form the semantic foundation of any MACM-compliant instance and are required for the correct validation and interpretation of models.
+## Primary Labels
 
-Unless otherwise stated, all constraints, rules, and type-checking functions described in the previous sections are assumed to operate on the configuration defined here.
+We define the set of admissible primary labels $L_P = \{ \mathtt{Party}, \mathtt{CSP}, \mathtt{Service}, \mathtt{HW}, \mathtt{Network}, \mathtt{Virtual}, \mathtt{SystemLayer} \}$.
 
-## Nodes Configuration
+## Secondary Labels
 
-### Primary Labels
-
-We define the set of admissible primary labels:
+For each $ \ell_p \in L_P $, the associated secondary label set $LS(\ell_p) \subseteq L_S $ are:
 
 $$
-L_P = \\{ \texttt{CSC}, \texttt{CSP}, \texttt{Service}, \texttt{HW}, \texttt{Network}, \texttt{Data} \\}
+    \begin{aligned}
+        LS(\mathtt{Network}) &= \{ \mathtt{WAN}, \mathtt{LAN}, \mathtt{PAN} \} \\
+        LS(\mathtt{CSP}) &= \emptyset\\
+        LS(\mathtt{Virtual}) &= \{\mathtt{VM}, \mathtt{Container}\}\\
+        LS(\mathtt{SystemLayer}) &= \{\mathtt{OS},\mathtt{Firmware},\mathtt{ContainerRuntime}, \mathtt{Hypervisor}\} \\
+        % \quad LS(\mathtt{Data}) = \emptyset \\
+        LS(\mathtt{Service}) &= \{ \mathtt{App}, \mathtt{Server} \} \\
+        LS(\mathtt{Party}) &= \{ \mathtt{Human}, \mathtt{LegalEntity}, \mathtt{Group} \} \\
+        LS(\mathtt{HW}) &= \{ \mathtt{Server}, \mathtt{IoT}, \mathtt{Device}, \mathtt{Microcontroller}, \mathtt{SOC}, \mathtt{MEC}, \mathtt{PC} \}
+    \end{aligned}
 $$
 
-### Secondary Labels
+## Relationship Types
 
-For each $\ell_p \in L_P$, we define the associated secondary label set $L_S(\ell_p) \subseteq \mathbb{L}_S$. For instance:
+The set of admissible relationship types is $R = \{ \mathtt{uses, hosts, provides, connects, interacts} \}$.
+
+## Relationship pattern validity
+
+The primary labels of the source and target nodes, together with the relationship type, must correspond to one of the patterns defined in the following table. Each row of the table has to be intended as $\delta(Source Primary Label,Target Primary Label) = Relationship Type$.
+
+| Source Primary Label | Relationship Type | Target Primary Label                                                                                           |
+|-----------------------------|----------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| $\mathtt{Party}$            | $\mathtt{interacts}$       | $\mathtt{Service}, \mathtt{HW}, \mathtt{Network}, \mathtt{Party}, \mathtt{Virtual}, \mathtt{SystemLayer}, \mathtt{CSP}$ |
+| $\mathtt{Service}$          | $\mathtt{uses}$            | $\mathtt{Service}, \mathtt{Virtual}$                                                                                    |
+| $\mathtt{Service}$          | $\mathtt{hosts}$           | $\mathtt{Service}$                                                                                                      |
+| $\mathtt{Virtual}$          | $\mathtt{hosts}$           | $\mathtt{SystemLayer}$                                                                                                  |
+| $\mathtt{SystemLayer}$      | $\mathtt{hosts}$           | $\mathtt{SystemLayer}, \mathtt{Virtual}, \mathtt{Service}$                                                              |
+| $\mathtt{SystemLayer}$      | $\mathtt{uses}$            | $\mathtt{HW}$                                                                                                           |
+| $\mathtt{HW}$               | $\mathtt{hosts}$           | $\mathtt{HW}, \mathtt{SystemLayer}$                                                                                     |
+| $\mathtt{CSP}$              | $\mathtt{provides}$        | $\mathtt{Service}, \mathtt{Network}, \mathtt{HW}, \mathtt{Virtual}, \mathtt{SystemLayer}$                               |
+| $\mathtt{Network}$          | $\mathtt{connects}$        | $\mathtt{Network}, \mathtt{Virtual}, \mathtt{SystemLayer}, \mathtt{HW}, \mathtt{CSP}$                                   |
+
+## Properties
+
+The Property configuration within the schema is defined through the function $\beta$, as introduced in the *Macm Property Graph Schema*, that assigns to each pair $(PrimaryLabel,\allowbreak~SecondaryLabel)$ or to each edge type the admissible properties and their corresponding datatype.
+
+According to the definition, we would need to list a potentially long set of entries of the form $\beta\bigl((x,y),p\bigr)=q$, where $x$ is the primary label, $y$ is the secondary label, $p$ is the property, and $q$ is the datatype. Since these properties apply to all nodes regardless of type, we will use the wildcard pair $(*,*)$ to denote all node types and thus simplify the configuration.
+
+As previously stated in the introduction of this section, there are three mandatory properties for nodes: the ID, the name, and the Asset Type. In particular, the Asset Type represents an additional, fine-grained classification of an asset. An Asset Type is tightly coupled with the concepts of Primary and Secondary Label. Indeed, given an Asset Type, the pair $(PrimaryLabel, SecondaryLabel)$ is uniquely determined. The list of all Asset Types defined in this configuration, along with their corresponding label pair and a brief description, is available in the [Asset Type Catalogue](https://pennet.vseclab.it/catalogs/asset-types).
+We now introduce the following definition, useful for expressing some constraints.
+
+### Asset Type Set
+    
+Let $T$ be the set of Asset Types in the MACM model. Each asset type $ t \in T $ is uniquely associated with a primary label $ \ell_p \in L_P $ and a secondary label $ \ell_s \in L_S \cup \{ \emptyset \} $.
+We define a total mapping $ \tau : T \rightarrow L_P \times (L_S \cup \{ \emptyset \}) $ such that for each asset type $ t \in T$, we have $\tau(t) = (\ell_p, \ell_s)$.
+
+Therefore, the following configurations apply to the nodes:
 
 $$
 \begin{aligned}
-    & L_S(\texttt{Network}) = \\{ \texttt{5G}, \texttt{WAN}, \texttt{LAN}, \texttt{PAN} \\} \cr
-    & L_S(\texttt{Service}) = \\{ \texttt{5G}, \texttt{COTS}, \texttt{IaaS}, \texttt{PaaS}, \texttt{SaaS} \\} \cr
-    & L_S(\texttt{HW}) = \\{ \texttt{Server}, \texttt{IoT}, \texttt{Device}, \texttt{Microcontroller}, \texttt{SOC} \\} \cr
-    & L_S(\texttt{CSC}) = \emptyset \cr
-    & L_S(\texttt{CSP}) = \emptyset \cr
-    & L_S(\texttt{Data}) = \emptyset
+    \beta\bigl((*,*),id\bigr) &= \mathtt{Integer} \\ \beta\bigl((*,*),name\bigr) &= \beta\bigl((*,*),asset\_type\bigr)=\mathtt{String}
 \end{aligned}
 $$
 
-### Asset Types
+In terms of the edge properties configuration, properties are defined for the protocols used in some of the relationships between the assets, whenever communications occur over a network. We have chosen to adopt all the layers of the standard ISO/OSI communication stack, excluding the physical layer.
 
-This section presents the set of asset types supported by the default MACM configuration.
-
-Each asset type $t \in \mathbb{T}$ represents a concrete classification of a node within the system and is associated with a primary label $\ell_p \in L_P$ and a secondary label $\ell_s \in \mathbb{L}_S \cup \\{ \emptyset \\}$. While the asset type is not necessarily a direct composition of its labels, it is uniquely related to a pair $(\ell_p, \ell_s)$ through the function $\texttt{LabelPair}$, as defined in the formal specification.
-
-The first component of every asset type corresponds to its primary label and determines the high-level role of the asset in the model. The secondary label, if present, provides a more specific categorization within that role.
-
-The [Asset Types Catalog](https://pennet.vseclab.it/catalogs/asset-types) enumerates all asset types defined in the default MACM configuration, along with their corresponding label pair and a brief description.
-
-### Node Parameter Domain
-
-In the default configuration of the MACM model, a single parameter is defined for all nodes: `compromise_state`. This parameter encodes the compromise status of a node along six independent security-relevant dimensions.
-
-#### Parameter Key Set
-
-The set of admissible parameter keys for nodes is defined as:
+Each layer is associated with a property:
 
 $$
-\mathcal{K}_n = \\{\texttt{compromise\_state}\\}
+\begin{align*}
+    p \in O = \{ & \mathtt{data\_link\_protocol}, \mathtt{network\_protocol}, \\
+    & \mathtt{transport\_protocol}, \mathtt{session\_protocol}, \\
+    & \mathtt{presentation\_protocol}, \mathtt{application\_protocol} \}
+\end{align*}
 $$
 
-#### Admissible Values
+The following configuration applies:
 
-Let $\mathcal{CS} = \\{n, p, f, ?\\}$ denote the compromise state alphabet, where:
+- $$ \beta(\text{connects},\, p) = \mathtt{String},\quad \forall p \in \{ \mathtt{data\_link\_protocol}, \mathtt{network\_protocol}, \mathtt{application\_protocol} \} $$
+- $$ \beta(\text{uses},\, p) = \mathtt{String},\quad \forall p \in \{ \mathtt{transport\_protocol}, \mathtt{session\_protocol}, \mathtt{presentation\_protocol}, \mathtt{application\_protocol} \} $$
 
-- **n** = not compromised
-- **p** = partially compromised
-- **f** = fully compromised
-- **?** = unknown
+At this point, it is necessary to determine which of the above configurations $\beta(\cdot,\cdot)$ belong to the special sets $P_m$ (mandatory properties), $P_o$ (optional properties), or $P_u$ (properties with unique values):
 
-Each node must specify a 6-tuple $\mathbf{c} = (c_1, c_2, c_3, c_4, c_5, c_6) \in \mathcal{CS}^6$, where each $c_i \in \mathcal{CS}$. These six elements correspond to the six dimensions of the extended CIA+ taxonomy adopted by MACM:
+- $((*, *), id) \in P_u$
+- $\forall x \in \{ ((*, *), name),\; ((*, *), asset\_type) \},\; x \in P_m$
+- $$
+    \forall x \in \left\{
+    \begin{array}{l}
+    (connects, data\_link\_protocol),
+    (connects, network\_protocol), \\
+    (connects, application\_protocol), 
+    (uses, transport\_protocol), \\
+    (uses, session\_protocol),
+    (uses, presentation\_protocol), \\
+    (uses, application\_protocol)
+    \end{array}
+    \right\},\; x \in P_o
+    $$
 
-- $c_1$: **Confidentiality** — unauthorized disclosure of information.
-- $c_2$: **Integrity** — unauthorized modification or corruption of data or functions.
-- $c_3$: **Availability** — denial or degradation of service or resources.
-- $c_4$: **Authentication** — compromise of identity verification mechanisms.
-- $c_5$: **Authorization** — abuse or bypass of access control policies.
-- $c_6$: **Accountability** — loss of traceability or auditability guarantees.
+Since $P_u \subseteq P_m$, the property $id$ is both unique and mandatory. The cardinality of each property is defined by the function $Cardinality(\cdot,p)$ and reported in the following table.
 
-The corresponding value domain function is:
+| Property                                     | Cardinality |
+|-----------------------------------------------------|----------------------|
+| $((*,*),id)$, $((*,*),name)$, $((*,*),asset\_type)$ | $(1,1)$              |
+| $(uses, presentation\_protocol)$                    | $(0,1)$              |
+| $(uses, application\_protocol)$                     | $(0,+\infty)$        |
 
-$$
-\texttt{AllowedValues}_n(\texttt{compromise\_state}) = \mathcal{CS}^6
-$$
+According to this configuration, each property related to a protocol may be omitted; however, if present, its associated value set must comply with the defined limits. All protocol properties allow at most one value, except for the application-level property, which allows one or more values if used.
 
-#### Cardinality Constraint
-
-Nodes must declare exactly one such tuple:
-
-$$
-\texttt{ValueCardinality}(\texttt{compromise\_state}) = (1, 1)
-$$
-
-#### Parameter Applicability
-
-The parameter `compromise_state` is allowed for all asset types:
-
-$$
-\forall t \in T, \quad \texttt{AllowedParams}_n(t) = \\{\texttt{compromise\_state}\\}
-$$
-
-This parameter provides a uniform mechanism to annotate nodes with structured compromise information across multiple security properties, enabling advanced reasoning tasks such as impact analysis, recursive threat propagation, and multi-dimensional risk modeling.
-
-#### Example
-
-Consider a node $n \in N$ representing a server, whose compromise state is specified as:
-
-$$
-\texttt{compromise\_state}(n) = (n, p, n, f, n, ?)
-$$
-
-While the notation $\texttt{compromise\_state}(n)$ is used here for clarity, it is formally an abbreviation. In the MACM model, parameter values are stored as key-value pairs in the node's parameter set $P_n$, i.e.,
-
-$$
-(\texttt{compromise\_state}, \\{(n, p, n, f, n, ?)\\}) \in P_n.
-$$
-
-This corresponds to the following security status:
-
-- **Confidentiality**: not compromised
-- **Integrity**: partially compromised
-- **Availability**: not compromised
-- **Authentication**: fully compromised
-- **Authorization**: not compromised
-- **Accountability**: unknown
-
-Such a configuration reflects a scenario where the node’s authentication mechanisms have been fully bypassed (e.g., via credential theft), and its integrity is at risk due to unauthorized modifications. However, availability remains intact, and no clear evidence exists yet about accountability failures.
-
-## Relationship Configuration
-
-### Relationship Types
-
-We define the set of admissible relationship types:
-
-$$
-R = \\{ \texttt{uses}, \texttt{hosts}, \texttt{provides}, \texttt{connects} \\}
-$$
-
-### Relationship Parameter Domain
-
-We define all the parameters eligible for relationships:
-
-$$
-\mathcal{K}_e = \\{ \texttt{data\_link\_protocol}, \texttt{network\_protocol}, \texttt{transport\_protocol},
-                   \texttt{session\_protocol}, \texttt{presentation\_protocol}, \texttt{application\_protocol} \\}
-$$
-
-### Supported Protocols per Relationship Type
-
-In this section, we define the set of protocols that are admissible for each relationship type in the MACM default configuration.
-
-#### OSI Layer Set
-
-Let $\mathcal{L}$ be the set of ISO/OSI layers. Each layer $\lambda \in \mathcal{L}$ represents a conceptual level in the standardized communication stack, from physical signal transmission to high-level application semantics.
-
-$$
-\mathcal{L} = \\{\texttt{Physical},\;\texttt{Data Link},\;\texttt{Network},\;\texttt{Transport},\;\texttt{Session},\;\texttt{Presentation},\;\texttt{Application}\\}
-$$
-
-These layers provide the foundation for classifying supported protocols within the model, and are referenced in the definition of the `ProtocolLayerMapping` relation.
-
-Each layer $\lambda \in \mathcal{L}$ is semantically associated with a unique parameter key $k \in \mathcal{K}_e$. This mapping enables each protocol $p \in \mathcal{P}$ to be positioned within the OSI model and attached to relationships via its corresponding parameter key, as used in the MACM model semantics.
-
-#### Protocol Domain
-
-Let $\mathcal{P}$ denote the set of all protocols supported by the MACM model. Each protocol $p \in \mathcal{P}$ corresponds to a standardized communication mechanism.
-
-#### Protocol-to-OSI Layer Mapping
-
-We define the relation:
-
-$$
-\texttt{ProtocolLayerMapping} \subseteq \mathcal{P} \times \mathcal{L}
-$$
-
-where $\mathcal{P}$ is the set of supported protocols (as defined in the Protocol Domain), and $\mathcal{L}$ is the set of ISO/OSI layers.
-
-Each pair $(p, \lambda) \in \texttt{ProtocolLayerMapping}$ indicates that protocol $p \in \mathcal{P}$ operates at ISO/OSI layer $\lambda \in \mathcal{L}$.
-
-#### Protocol-to-Relation Mapping
-
-We define the relation:
-
-$$
-\texttt{ProtocolRelationMapping} \subseteq \mathcal{P} \times R
-$$
-
-as the set of all valid protocol-to-relationship associations permitted in the MACM model.
-
-Each pair $(p, r) \in \texttt{ProtocolRelationMapping}$ denotes that protocol $p \in \mathcal{P}$ is semantically allowed to appear as the value of a protocol-related parameter on a relationship of type $r \in R$.
-
-#### Protocol Semantics Triples
-
-We define the relation:
-
-$$
-\texttt{ProtocolSemantics} \subseteq \mathcal{P} \times \mathcal{L} \times R
-$$
-
-Each triple $(p, \lambda, r) \in \texttt{ProtocolSemantics}$ expresses that:
-
-- protocol $p \in \mathcal{P}$ operates at OSI layer $\lambda \in \mathcal{L}$
-- protocol $p$ is valid as a value for the corresponding parameter key associated with $\lambda$
-- protocol $p$ is allowed in the context of relationship type $r \in R$
-
-This relation provides a unified semantics for protocol parameters in the MACM model and is defined extensionally by the supported [Protocols Catalog](https://pennet.vseclab.it/catalogs/protocols).
-
-#### Protocol Dependencies
-
-Let
-
-$$
-\texttt{ProtocolDependencies} \subseteq \mathcal{P} \times \mathcal{K}_e \times \mathcal{P}
-$$
-
-be the set of semantic dependencies between protocols defined in the MACM model.
-
-Each element $(p_h, k_l, p_l) \in \texttt{ProtocolDependencies}$ expresses the following constraint:
-
-If a relationship includes a parameter key $k_h \in \mathcal{K}_e$ whose associated value set contains the protocol $p_h \in \mathcal{P}$, then it must also include a parameter key $k_l \in \mathcal{K}_e$ whose associated value set contains the protocol $p_l \in \mathcal{P}$, where $k_l$ typically corresponds to a lower OSI layer.
-
-This dependency ensures semantic coherence across protocol stacks within a relationship by enforcing mandatory protocol compositions. The following table contains some examples of such dependencies.
-
-| **High-Level Protocol ($p_h$)** | **Required Key ($k_l$)**      | **Required Protocol ($p_l$)** |
-|:-------------------------------|:------------------------------|:------------------------------|
-| `TLS`                          | `transport_protocol`          | `TCP`                         |
-| `DTLS`                         | `transport_protocol`          | `UDP`                         |
+> **Disambiguation**: In this section, we have defined the Property Graph as a graph in which nodes are characterized by labels and properties. We also stated that the labels $l \in L$ define the “type” of a node. In the case of MACM, we have defined a hierarchy consisting of two types of labels: Primary Labels and Secondary Labels. The former provide a higher-level classification, while the latter serve to further specialize this classification. For example, to represent a LAN network, we use a node whose Primary Label is $\mathtt{Network}$ and whose Secondary Label is $\mathtt{LAN}$. However, in MACM we have also defined Asset Types, which represent the most fine-grained classification assigned to a node. In the case of a LAN network, the Asset Type would be $\mathtt{Network.LAN}$. It should first be noted that an Asset Type is not always composed of $\mathtt{PrimaryLabel.SecondaryLabel}$. Furthermore, Asset Types are not labels but properties, and therefore it would be inaccurate to say that a node representing a LAN network is of “type” $\mathtt{Network.LAN}$.
+Nevertheless, throughout this document, the “type” of a node will often be referred to by indicating either its labels or its Asset Type. The reader can easily distinguish between the two classifications—label-level or Asset Type—by noting whether the indicated “type” contains a dot or not.
 
 ## Constraints
 
-The following constraints refine and specialize the general validation rules defined in the formal MACM specification.  
-They apply specifically to the default configuration presented in this section.
+The last element to be configured in the schema is the set of semantic constraints $\Gamma$, which, as previously explained, are used to express semantic characteristics specific to the application domain—in this case, IT systems.
 
-As in the core model, we distinguish between:
+### Asset Type validity
 
-- **Syntactic Constraints** — Configuration-specific structural requirements that must be enforced for model validity.
-- **Semantic Constraints** — Best-practice conditions and consistency checks derived from domain knowledge and expected modeling behavior.
-
-Syntactic constraints in this section restrict the accepted patterns, label combinations, or graph structures to those valid under the default configuration.  
-Semantic constraints, while optional, highlight potential misconfigurations, such as unsupported protocol stacks or possible protocol dependencies.
-
-### Syntactic Constraint: Relationship pattern validity
-
-Let
+Previously, we defined the set of Asset Types $T$ and stated that each Asset Type $t \in T$ is associated with a pair $(PrimaryLabel,SecondaryLabel)$. We now define a constraint ensuring that this relationship holds for every Asset Type of each node in the MACM:
 
 $$
-\begin{aligned}
-    \texttt{AllowedPattern} = \\{ 
-        & (\texttt{CSC}, \texttt{uses}, \texttt{Service}), \cr
-        & (\texttt{Service}, \texttt{uses}, \texttt{Service}), \cr
-        & (\texttt{CSP}, \texttt{provides}, \texttt{Service}), \cr
-        & (\texttt{CSP}, \texttt{provides}, \texttt{Network}), \cr
-        & (\texttt{CSP}, \texttt{provides}, \texttt{HW}), \cr
-        & (\texttt{Service}, \texttt{hosts}, \texttt{Service}), \cr
-        & (\texttt{HW}, \texttt{hosts}, \texttt{HW}), \cr
-        & (\texttt{HW}, \texttt{hosts}, \texttt{Service}), \cr
-        & (\texttt{Network}, \texttt{connects}, \texttt{IaaS}), \cr
-        & (\texttt{Network}, \texttt{connects}, \texttt{HW})
-    \\}
-\end{aligned}
+    \forall n \in N, \sigma(n,\mathtt{asset\_type}) \in T \land  \tau \bigl(\sigma(n,\mathtt{asset\_type})\bigr)=\lambda_N(n) 
 $$
 
-Then:
+### Single host/provide per service
+
+The second constraint requires that each service node must be hosted or provided by exactly one other node. This guarantees that every service has a unique deployment context in the system.
 
 $$
-\forall (n_s, r, n_t, P_e) \in E, \quad (\texttt{PrimaryLabel}(n_s), r, \texttt{PrimaryLabel}(n_t)) \in \texttt{AllowedPattern}.
+    \forall n_t \in N: \lambda_N(n_t)=(\mathtt{Service},*), \exists! n_s \in N, \exists e \in E:\lambda_E(e) \in \{\mathtt{hosts},\mathtt{provides}\} \land \rho(e) = (n_s,n_t)
 $$
 
-### Syntactic Constraint: Single host/provide per service
+This constraint relies on the snapshot assumption of the MACM model (see Model Definition). In design-time scenarios or highly dynamic infrastructures, this condition applies to the specific instance of the architecture captured by the model, and not to the system's full lifecycle.
 
-Each service node must be hosted or provided by exactly one other node.  
-This guarantees that every service has a unique deployment context in the system.
+### Alternate path for uses
 
-$$
-\forall n \in N \text{ with } \texttt{PrimaryLabel}(n)=\texttt{Service}, \quad 
-\bigl|\\{(n',r,n,P_e) \in E \mid r \in \\{\texttt{hosts},\texttt{provides}\\} \\}\bigr| = 1
-$$
+The following semantic sonstraint requires that each  $\mathtt{uses}$ relationship between two nodes must be supported by an alternative communication path that does not itself depend on a $\mathtt{uses}$ or an $\mathtt{interacts}$ edge. This ensures that functional dependencies are semantically meaningful only when there exists a viable infrastructure or network path that enables actual communication.
 
-> **Remark:** This relies on the snapshot assumption of the MACM model. In design-time scenarios or highly dynamic infrastructures, this condition applies to the specific instance of the architecture captured by the model, and not to the system's full lifecycle.
+Let $ M = (N,E,\rho,\lambda_N,\lambda_E,\sigma) $ a MACM property graph and $ M' = (N,E',\rho,\lambda_N,\lambda_E,\sigma) $ the subgraph of $M$ with $ E' = \bigl\{ e \in E \mid \lambda_E(e) \notin \{ \mathtt{uses}, \mathtt{interacts} \} \bigr\} $, then $ \forall e \in E$, where $\lambda_E(e)=\mathtt{uses}$ and $\rho(e)=(n_s,n_t)$, exists a path in $M'$ from $n_s$ to $n_t$.
 
-### Syntactic Constraint: Alternate path for uses
+### SystemLayer hosting SystemLayer node validity
 
-A `uses` relationship between two nodes must be supported by an alternative communication path that does not itself depend on a `uses` edge.
-
-This ensures that functional dependencies (captured by `uses`) are semantically meaningful only when there exists a viable infrastructure or network path that enables actual communication or interaction.
-
-Formally, let $G' = (N, E')$ be the subgraph of the MACM obtained by removing all `uses` relationships:
+We introduce constraints for *SystemLayer* nodes, representing middleware. This primary label includes four asset types: $\mathtt{SystemLayer.OS}$ (e.g., Operating System), $\mathtt{SystemLayer.Firmware}$, $\mathtt{SystemLayer.ContainerRuntime}$ (e.g., Docker), and $\mathtt{SystemLayer.Hyper\allowbreak Visor}$ (e.g., Xen, VMware).
+First, we constrain the $\delta(\mathtt{SystemLayer, SystemLayer})=\mathtt{hosts}$ pattern from Relationship Pattern Validity. A $\mathtt{SystemLayer.OS}$ may host a $\mathtt{SystemLayer.ContainerRuntime}$ or a $\mathtt{SystemLayer.HyperVisor}$, but other direct hosting between *SystemLayer* nodes is invalid. For instance, a *HyperVisor* cannot host an *OS* without an intermediate *Virtual* node.
+The following rule defines that a
+$\mathtt{SystemLayer.OS}$ can host only $\mathtt{SystemLayer.ContainerRuntime}$ or $\mathtt{SystemLayer.HyperVisor}$ nodes.
 
 $$
-E' = \\{ (n_s, n_t) \mid (n_s, r, n_t, P_e) \in E,\; r \neq \texttt{uses} \\}
+    \forall e \in E,  \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = \lambda_N(n_t) = \mathtt{(SystemLayer, *)} \big) \implies \big( \sigma(n_s, \mathtt{asset\_type}) = \mathtt{"SystemLayer.OS"} \;\land 
+    \sigma(n_t, \mathtt{asset\_type}) \in \{ \mathtt{"SystemLayer.ContainerRuntime"}, \mathtt{"SystemLayer.HyperVisor"} \} \big)
 $$
 
-Then:
+### SystemLayer hosting Virtual node validity
+
+The second relationship pattern we wish to constrain is $\delta(\mathtt{SystemLayer,Virtual})=\mathtt{hosts}$. In this case, since the Primary Label $\mathtt{Virtual}$ is used to represent either virtual machines (of type $\mathtt{Virtual.VM}$) or containers (of type $\mathtt{Virtual.Container}$), only the following relationships are valid: $\mathtt{SystemLayer.ContainerRuntime}$ $\mathtt{hosts}$ $\mathtt{Virtual.Container}$ and $\mathtt{SystemLayer.HyperVisor}$ $\mathtt{hosts}$ $\mathtt{Virtual.VM}$.
 
 $$
-\forall (n_1, \texttt{uses}, n_2, P_e) \in E,\quad \exists \text{ a path in } G' \text{ from } n_1 \text{ to } n_2
+    \forall e \in E, \big( \lambda_E(e) = \mathtt{"hosts"} \;\land\; \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (SystemLayer, *) \;\land\; \lambda_N(n_t) = (Virtual, *) \implies \big( \sigma(n_s, \mathtt{asset\_type}) \in \{ \mathtt{"SystemLayer.ContainerRuntime"}, \mathtt{"SystemLayer.HyperVisor"} \} \big), \\
+    \sigma(n_t,asset\_type) =
+    \begin{cases}
+        \begin{alignedat}{2}
+            &\mathtt{"Virtual.Container"} && \quad \text{if } \sigma(n_s,asset\_type) = \mathtt{"SystemLayer.ContainerRuntime"}   \\
+            &\mathtt{"Virtual.VM"} && \quad \text{if } \sigma(n_s,asset\_type) = \mathtt{"SystemLayer.HyperVisor"}
+        \end{alignedat}
+    \end{cases}
 $$
 
-### Syntactic Constraint: CSC only uses
+### SystemLayer hosting Service node validity
+
+Regarding SystemLayer nodes that host Service nodes, the former can only be operating systems ($\mathtt{SystemLayer.OS}$) or firmware ($\mathtt{SystemLayer.Firmware}$). Therefore, the following constraint applies.
+
+If a SystemLayer node hosts a Service node, the source node must be of type $\mathtt{SystemLayer.OS}$ or $\mathtt{SystemLayer.Firmware}$.
 
 $$
-\forall(n_s,r,n_t,P_e)\in E,\;\texttt{PrimaryLabel}(n_s)=\texttt{CSC}\;\Rightarrow\;r=\texttt{uses}.
+    \forall e \in E,\; \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (\mathtt{SystemLayer},*) \land \lambda_N(n_t) = (\mathtt{Service}, *) \big) \implies \sigma(n_s, \mathtt{asset\_type}) \in \{ \mathtt{"SystemLayer.OS"}, \mathtt{"SystemLayer.Firmware"} \}
 $$
 
-### Syntactic Constraint: CSP nodes may only appear as source in provides relationships
+### Virtual hosting SystemLayer node validity
 
-Nodes labeled `CSP` are only allowed to initiate `provides` relationships.
+Furthermore, with regard to nodes of type $\mathtt{SystemLayer}$, we also want to constrain the pattern $\delta(\mathtt{Virtual},\mathtt{SystemLayer})$. Specifically, it is valid for a $\mathtt{Virtual.VM}$ node to host a node of type $\mathtt{SystemLayer.OS}$ or $\mathtt{SystemLayer.Firmware}$, but it is not valid for a $\mathtt{Virtual.VM}$ node to host a $\mathtt{SystemLayer.HyperVisor}$ node.
 
-$$
-\forall (n_s, r, n_t, P_e) \in E, \quad \texttt{PrimaryLabel}(n_s) = \texttt{CSP} \Rightarrow r = \texttt{provides}
-$$
-
-### Syntactic Constraint: Services must be hosted by Firmware or OS
-
-Every service node that is not itself of type `Firmware` or `OS` must be hosted by another service node whose type is either `Firmware` or `OS`.
-
-Formally:
+If a Virtual node hosts a SystemLayer node, the target node must be of type $\mathtt{SystemLayer.OS}$ or $\mathtt{SystemLayer.Firmware}$.
 
 $$
-\forall (n_h, \texttt{hosts}, n_s, P_e) \in E,
-\texttt{PrimaryLabel}(n_s) = \texttt{Service} \wedge
-\texttt{SecondaryLabel}(n_s) \notin \\{ \texttt{Firmware}, \texttt{OS} \\}
-\Rightarrow
-\texttt{AssetType}(n_h) \in \\{ (\texttt{Service}, \texttt{Firmware}),\; (\texttt{Service}, \texttt{OS}) \\}
+    \forall e \in E, \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (\mathtt{Virtual},*) \land \lambda_N(n_t) = (\mathtt{SystemLayer},*) \big) \implies \big( \sigma(n_t, \mathtt{asset\_type}) \in \{ \mathtt{"SystemLayer.OS"}, \mathtt{"SystemLayer.Firmware"} \} \big)
 $$
 
-### Syntactic Constraint: HW nodes can only host Firmware or OS services
+### Hardware hosting SystemLayer node validity
 
-If a node with asset type in category `HW` hosts a `Service`, that service must be of type `Firmware` or `OS`.
+A final constraint concerning $\mathtt{SystemLayer}$ nodes aims to restrict the cases in which they are hosted by hardware, specifically constraining the pattern $\delta(\mathtt{HW}, \mathtt{SystemLayer})=\mathtt{hosts}$. In particular, it is not valid for a node of type $\mathtt{HW}$ to directly host a node of type $\mathtt{SystemLayer.ContainerRuntime}$.
 
-Formally:
-
-$$
-\forall (n_s, \texttt{hosts}, n_t, P_e) \in E, \texttt{PrimaryLabel}(n_s) = \texttt{HW} \wedge \texttt{PrimaryLabel}(n_t) = \texttt{Service} \Rightarrow \texttt{AssetType}(n_t) \in \\{ \texttt{Service.Firmware}, \texttt{Service.OS} \\}
-$$
-
-### Semantic Constraint: Default Value Cardinality for Protocol Parameters
-
-In the default MACM configuration, each protocol parameter key is assigned an admissible range of values through the function:
+If a HW (hardware) node hosts a SystemLayer node, the target node can not be of type $\mathtt{SystemLayer.ContainerRuntime}$.
 
 $$
-\texttt{ValueCardinality}(k) =
-\begin{cases}
-(0,\;1) & \text{if } k \in \\{\texttt{data\_link\_protocol},\;\texttt{network\_protocol},\;\texttt{transport\_protocol}, \cr
-    \texttt{session\_protocol},\;\texttt{presentation\_protocol}\\} \cr
-(0,\;+\infty) & \text{if } k = \texttt{application\_protocol}
-\end{cases}
+    \forall e \in E,\; \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (\mathtt{HW},*) \land \lambda_N(n_t) = (\mathtt{SystemLayer},*) \big) \implies \sigma(n_t, \mathtt{asset\_type}) \neq \mathtt{"SystemLayer.ContainerRuntime"}
 $$
 
-This constraint specifies that each protocol key may be omitted, but if present, its associated value set must respect the defined bounds. All lower-layer protocol keys admit at most one value; the application layer admits one or more values if used.
+### Protocol validity
 
-### Semantic Constraint: Protocol dependency enforcement
+At this point, we define a constraint for the edge parameters related to protocols. The list of supported protocols is available [online](https://pennet.vseclab.it/catalogs/protocols). For each protocol, the type of relationship to which it applies, its corresponding layer in the ISO/OSI stack, and a brief description are provided. Therefore, the following constraint must hold.
 
-For each declared dependency $(p_h, k_l, p_l) \in \texttt{ProtocolDependencies}$, if a relationship declares $p_h$ within the value set associated with some key $k_h$, then it must also include $p_l$ within the value set associated with $k_l$.
-
-Formally:
+Let $Y \subseteq R \times P \times V$ be the set of triples $(r, o, v)$ representing the protocols allowed in the MACM, where $r$ is a type of relationship (e.g., $\mathtt{uses}$), $o$ is a property key associated with a layer of the ISO/OSI model (e.g., $application\allowbreak\_protocol$), and $v$ is the name of a valid protocol (e.g., HTTP).
 
 $$
-\forall (n_s, r, n_t, P_e) \in E,\quad
-\forall (p_h, k_l, p_l) \in \texttt{ProtocolDependencies},
+    \forall e \in E,\; \forall p \in O \subseteq P,\; \big( \lambda_E(e) \in \{ \mathtt{connects}, \mathtt{uses} \} \land (e, p) \in \mathrm{dom}(\sigma) \big) \implies  \forall v \in \sigma(e, p),\; (\lambda_E(e), p, v) \in Y
 $$
-$$
-(\exists V_h\; :\; (k_h, V_h) \in P_e\ \wedge\ p_h \in V_h)\quad 
-\Rightarrow\quad (\exists V_l\; :\; (k_l, V_l) \in P_e\ \wedge\ p_l \in V_l)
-$$
+
+At this stage, the reader should have gathered that, in the simplest form of a MACM, each node is characterized by a *Primary Label*, an (optional) *Secondary Label*, and an *Asset Type*, where these three elements describe, at different levels, the type of asset that the node represents. In addition, there is an *id* (unique) and a *name* describing the asset. Clearly, further properties can be added as needed. As for the edges, they are simply characterized by a type, the pair of nodes they connect and, optionally, properties related to protocols.
