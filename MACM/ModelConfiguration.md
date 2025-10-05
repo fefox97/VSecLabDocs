@@ -63,11 +63,9 @@ We define a total mapping $\tau : T \rightarrow L_P \times (L_S \cup \{ \emptyse
 
 Therefore, the following configurations apply to the nodes:
 
-$$
-\begin{aligned}
-    \beta\bigl((\cdot,\cdot),id\bigr) &= \mathtt{Integer} \\ \beta\bigl((\cdot,\cdot),name\bigr) &= \beta\bigl((\cdot,\cdot),asset\_type\bigr)=\mathtt{String}
-\end{aligned}
-$$
+- $\beta\bigl((\cdot,\cdot),id\bigr) = \mathtt{Integer}$
+
+- $\beta\bigl((\cdot,\cdot),name\bigr) = \beta\bigl((\cdot,\cdot),asset\_type\bigr)=\mathtt{String}$
 
 In terms of the edge properties configuration, properties are defined for the protocols used in some of the relationships between the assets, whenever communications occur over a network. We have chosen to adopt all the layers of the standard ISO/OSI communication stack, excluding the physical layer.
 
@@ -75,17 +73,17 @@ Each layer is associated with a property:
 
 $$
 \begin{aligned}
-    p \in O = \{ & \mathtt{data\_link\_protocol}, \mathtt{network\_protocol}, \\
-    & \mathtt{transport\_protocol}, \mathtt{session\_protocol}, \\
-    & \mathtt{presentation\_protocol}, \mathtt{application\_protocol} \}
+    p \in O = \{ & \mathtt{data\\_link\\_protocol}, \mathtt{network\\_protocol}, \\
+    & \mathtt{transport\\_protocol}, \mathtt{session\\_protocol}, \\
+    & \mathtt{presentation\\_protocol}, \mathtt{application\\_protocol} \}
 \end{aligned}
 $$
 
 The following configuration applies:
 
-- $$\beta(\text{connects}, p) = \mathtt{String},\quad \forall p \in \{ \mathtt{data\_link\_protocol}, \mathtt{network\_protocol}, \mathtt{application\_protocol} \}$$
+- $\beta(\text{connects}, p) = \mathtt{String},\quad \forall p \in \{ \mathtt{data\\_link\\_protocol}, \mathtt{network\\_protocol}, \mathtt{application\\_protocol} \}$
 
-- $$\beta(\text{uses}, p) = \mathtt{String},\quad \forall p \in \{ \mathtt{transport\_protocol}, \mathtt{session\_protocol}, \mathtt{presentation\_protocol}, \mathtt{application\_protocol} \}$$
+- $\beta(\text{uses}, p) = \mathtt{String},\quad \forall p \in \{ \mathtt{transport\\_protocol}, \mathtt{session\\_protocol}, \mathtt{presentation\\_protocol}, \mathtt{application\\_protocol} \}$
 
 At this point, it is necessary to determine which of the above configurations $\beta(\cdot,\cdot)$ belong to the special sets $P_m$ (mandatory properties), $P_o$ (optional properties), or $P_u$ (properties with unique values):
 
@@ -197,9 +195,7 @@ A final constraint concerning $\mathtt{SystemLayer}$ nodes aims to restrict the 
 
 If a HW (hardware) node hosts a SystemLayer node, the target node can not be of type $\mathtt{SystemLayer.ContainerRuntime}$.
 
-$$
-    \forall e \in E,\; \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (\mathtt{HW},\cdot) \land \lambda_N(n_t) = (\mathtt{SystemLayer},\cdot) \big) \implies \sigma(n_t, \mathtt{asset\_type}) \neq \mathtt{"SystemLayer.ContainerRuntime"}
-$$
+$$\forall e \in E,\; \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (\mathtt{HW},\cdot) \land \lambda_N(n_t) = (\mathtt{SystemLayer},\cdot) \big) \implies \sigma(n_t, \mathtt{asset\_type}) \neq \mathtt{"SystemLayer.ContainerRuntime"}$$
 
 ### Protocol validity
 
