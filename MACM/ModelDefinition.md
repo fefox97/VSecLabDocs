@@ -130,7 +130,7 @@ We say that $M$ is *valid with respect to* $S_M$, and thus that \emph{$M$ is a M
 
     - $\forall n_1,n_2 \in N: \bigl(n_1 \neq n_2 \wedge \lambda_N(n_1) = \lambda_N(n_2)\bigr) \implies \forall p \in P_u, \sigma(n_1,p) \neq \sigma(n_2,p)$
   
-    - $\forall e_1,e_2 \in E:\; \bigl(e_1 \neq e_2 \wedge \lambda_E(e_1) = \lambda_E(e_2)\bigr) \implies \forall p \in P_u, \sigma(e_1,p) \neq \sigma(e_2,p)$
+    - $\forall e_1,e_2 \in E: \bigl(e_1 \neq e_2 \wedge \lambda_E(e_1) = \lambda_E(e_2)\bigr) \implies \forall p \in P_u, \sigma(e_1,p) \neq \sigma(e_2,p)$
 
 6. **Cardinality of Property Values**
 

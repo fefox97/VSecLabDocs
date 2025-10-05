@@ -80,18 +80,18 @@ The following configuration applies:
 At this point, it is necessary to determine which of the above configurations $\beta(\cdot,\cdot)$ belong to the special sets $P_m$ (mandatory properties), $P_o$ (optional properties), or $P_u$ (properties with unique values):
 
 - $((\cdot, \cdot), id) \in P_u$
-- $\forall x \in \\{ ((\cdot, \cdot), name),\; ((\cdot, \cdot), asset\\_type) \\},\; x \in P_m$
+- $\forall x \in \\{ ((\cdot, \cdot), name), ((\cdot, \cdot), asset\\_type) \\}, x \in P_m$
 - $\forall x \in \left\\{
     \\begin{array}{l}
     (connects, data\\_link\\_protocol),
     (connects, network\\_protocol), \\\\
-    (connects, application\\_protocol), 
+    (connects, application\\_protocol),
     (uses, transport\\_protocol), \\\\
     (uses, session\\_protocol),
     (uses, presentation\\_protocol), \\\\
     (uses, application\\_protocol)
     \\end{array}
-    \right\\},\; x \in P_o$
+    \right\\}, x \in P_o$
 
 Since $P_u \subseteq P_m$, the property $id$ is both unique and mandatory. The cardinality of each property is defined by the function $Cardinality(\cdot,p)$ and reported in the following table.
 
@@ -143,7 +143,7 @@ $\mathtt{SystemLayer.OS}$ can host only $\mathtt{SystemLayer.ContainerRuntime}$ 
 
 $$
     \forall e \in E,  \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = \lambda_N(n_t) = \mathtt{(SystemLayer, \cdot)} \big) \implies \big( \sigma(n_s, \mathtt{asset\_type}) = \mathtt{"SystemLayer.OS"} \land
-    \sigma(n_t, \mathtt{asset\_type}) \in \\{ \mathtt{"SystemLayer.ContainerRuntime"}, \mathtt{"SystemLayer.HyperVisor"} \\} \big)
+    \sigma(n_t, \mathtt{asset\\_type}) \in \\{ \mathtt{"SystemLayer.ContainerRuntime"}, \mathtt{"SystemLayer.HyperVisor"} \\} \big)
 $$
 
 ### SystemLayer hosting Virtual node validity
@@ -151,12 +151,12 @@ $$
 The second relationship pattern we wish to constrain is $\delta(\mathtt{SystemLayer,Virtual})=\mathtt{hosts}$. In this case, since the Primary Label $\mathtt{Virtual}$ is used to represent either virtual machines (of type $\mathtt{Virtual.VM}$) or containers (of type $\mathtt{Virtual.Container}$), only the following relationships are valid: $\mathtt{SystemLayer.ContainerRuntime}$ $\mathtt{hosts}$ $\mathtt{Virtual.Container}$ and $\mathtt{SystemLayer.HyperVisor}$ $\mathtt{hosts}$ $\mathtt{Virtual.VM}$.
 
 $$
-    \forall e \in E, \big( \lambda_E(e) = \mathtt{"hosts"} \;\land\; \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (SystemLayer, \cdot) \;\land\; \lambda_N(n_t) = (Virtual, \cdot) \implies \big( \sigma(n_s, \mathtt{asset\_type}) \in \\{ \mathtt{"SystemLayer.ContainerRuntime"}, \mathtt{"SystemLayer.HyperVisor"} \\} \big), \\\\
+    \forall e \in E, \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (SystemLayer, \cdot) \land \lambda_N(n_t) = (Virtual, \cdot) \implies \big( \sigma(n_s, \mathtt{asset\_type}) \in \\{ \mathtt{"SystemLayer.ContainerRuntime"}, \mathtt{"SystemLayer.HyperVisor"} \\} \big), \\\\
     \sigma(n_t,asset\\_type) =
     \\begin{cases}
         \\begin{alignedat}{2}
-            &\mathtt{"Virtual.Container"} && \quad \text{if } \sigma(n_s,asset\_type) = \mathtt{"SystemLayer.ContainerRuntime"}   \\\\
-            &\mathtt{"Virtual.VM"} && \quad \text{if } \sigma(n_s,asset\_type) = \mathtt{"SystemLayer.HyperVisor"}
+            &\mathtt{"Virtual.Container"} && \quad \text{if } \sigma(n_s,asset\\_type) = \mathtt{"SystemLayer.ContainerRuntime"}   \\\\
+            &\mathtt{"Virtual.VM"} && \quad \text{if } \sigma(n_s,asset\\_type) = \mathtt{"SystemLayer.HyperVisor"}
         \\end{alignedat}
     \\end{cases}
 $$
@@ -168,7 +168,7 @@ Regarding SystemLayer nodes that host Service nodes, the former can only be oper
 If a SystemLayer node hosts a Service node, the source node must be of type $\mathtt{SystemLayer.OS}$ or $\mathtt{SystemLayer.Firmware}$.
 
 $$
-    \forall e \in E,\; \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (\mathtt{SystemLayer},\cdot) \land \lambda_N(n_t) = (\mathtt{Service}, \cdot) \big) \implies \sigma(n_s, \mathtt{asset\\_type}) \in \\{ \mathtt{"SystemLayer.OS"}, \mathtt{"SystemLayer.Firmware"} \\}
+    \forall e \in E, \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (\mathtt{SystemLayer},\cdot) \land \lambda_N(n_t) = (\mathtt{Service}, \cdot) \big) \implies \sigma(n_s, \mathtt{asset\\_type}) \in \\{ \mathtt{"SystemLayer.OS"}, \mathtt{"SystemLayer.Firmware"} \\}
 $$
 
 ### Virtual hosting SystemLayer node validity
@@ -198,7 +198,7 @@ At this point, we define a constraint for the edge parameters related to protoco
 Let $Y \subseteq R \times P \times V$ be the set of triples $(r, o, v)$ representing the protocols allowed in the MACM, where $r$ is a type of relationship (e.g., $\mathtt{uses}$), $o$ is a property key associated with a layer of the ISO/OSI model (e.g., $application\_protocol$), and $v$ is the name of a valid protocol (e.g., HTTP).
 
 $$
-    \forall e \in E,\; \forall p \in O \subseteq P, \big( \lambda_E(e) \in \\{ \mathtt{connects}, \mathtt{uses} \\} \land (e, p) \in \mathrm{dom}(\sigma) \big) \implies  \forall v \in \sigma(e, p), (\lambda_E(e), p, v) \in Y
+    \forall e \in E, \forall p \in O \subseteq P, \big( \lambda_E(e) \in \\{ \mathtt{connects}, \mathtt{uses} \\} \land (e, p) \in \mathrm{dom}(\sigma) \big) \implies  \forall v \in \sigma(e, p), (\lambda_E(e), p, v) \in Y
 $$
 
 At this stage, the reader should have gathered that, in the simplest form of a MACM, each node is characterized by a *Primary Label*, an (optional) *Secondary Label*, and an *Asset Type*, where these three elements describe, at different levels, the type of asset that the node represents. In addition, there is an *id* (unique) and a *name* describing the asset. Clearly, further properties can be added as needed. As for the edges, they are simply characterized by a type, the pair of nodes they connect and, optionally, properties related to protocols.
