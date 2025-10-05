@@ -14,7 +14,7 @@ We define the set of admissible primary labels $L_P = \\{ \mathtt{Party}, \matht
 
 For each $\ell_p \in L_P$, the associated secondary label set $LS(\ell_p) \subseteq L_S$ are:
 
-- $ LS(\mathtt{Network}) = \\{ \mathtt{WAN}, \mathtt{LAN}, \mathtt{PAN} \\}$
+- $LS(\mathtt{Network}) = \\{ \mathtt{WAN}, \mathtt{LAN}, \mathtt{PAN} \\}$
 - $LS(\mathtt{CSP}) = \emptyset$
 - $LS(\mathtt{Virtual}) = \\{ \mathtt{VM}, \mathtt{Container} \\}$
 - $LS(\mathtt{SystemLayer}) = \\{\mathtt{OS},\mathtt{Firmware},\mathtt{ContainerRuntime}, \mathtt{Hypervisor} \\}$
