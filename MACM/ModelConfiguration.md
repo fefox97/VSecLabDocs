@@ -142,7 +142,7 @@ The following rule defines that a
 $\mathtt{SystemLayer.OS}$ can host only $\mathtt{SystemLayer.ContainerRuntime}$ or $\mathtt{SystemLayer.HyperVisor}$ nodes.
 
 $$
-    \forall e \in E,  \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = \lambda_N(n_t) = \mathtt{(SystemLayer, \cdot)} \big) \implies \big( \sigma(n_s, \mathtt{asset\_type}) = \mathtt{"SystemLayer.OS"} \land
+    \forall e \in E,  \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = \lambda_N(n_t) = \mathtt{(SystemLayer, \cdot)} \big) \implies \big( \sigma(n_s, \mathtt{asset\\_type}) = \mathtt{"SystemLayer.OS"} \land
     \sigma(n_t, \mathtt{asset\\_type}) \in \\{ \mathtt{"SystemLayer.ContainerRuntime"}, \mathtt{"SystemLayer.HyperVisor"} \\} \big)
 $$
 
@@ -151,7 +151,7 @@ $$
 The second relationship pattern we wish to constrain is $\delta(\mathtt{SystemLayer,Virtual})=\mathtt{hosts}$. In this case, since the Primary Label $\mathtt{Virtual}$ is used to represent either virtual machines (of type $\mathtt{Virtual.VM}$) or containers (of type $\mathtt{Virtual.Container}$), only the following relationships are valid: $\mathtt{SystemLayer.ContainerRuntime}$ $\mathtt{hosts}$ $\mathtt{Virtual.Container}$ and $\mathtt{SystemLayer.HyperVisor}$ $\mathtt{hosts}$ $\mathtt{Virtual.VM}$.
 
 $$
-    \forall e \in E, \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (SystemLayer, \cdot) \land \lambda_N(n_t) = (Virtual, \cdot) \implies \big( \sigma(n_s, \mathtt{asset\_type}) \in \\{ \mathtt{"SystemLayer.ContainerRuntime"}, \mathtt{"SystemLayer.HyperVisor"} \\} \big), \\\\
+    \forall e \in E, \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = (SystemLayer, \cdot) \land \lambda_N(n_t) = (Virtual, \cdot) \implies \big( \sigma(n_s, \mathtt{asset\\_type}) \in \\{ \mathtt{"SystemLayer.ContainerRuntime"}, \mathtt{"SystemLayer.HyperVisor"} \\} \big), \\\\
     \sigma(n_t,asset\\_type) =
     \\begin{cases}
         \\begin{alignedat}{2}
