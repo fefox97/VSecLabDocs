@@ -83,16 +83,15 @@ $$
 
 The following configuration applies:
 
-- $$\beta(\text{connects},\, p) = \mathtt{String},\quad \forall p \in \{ \mathtt{data\_link\_protocol}, \mathtt{network\_protocol}, \mathtt{application\_protocol} \}$$
+- $$\beta(\text{connects}, p) = \mathtt{String},\quad \forall p \in \{ \mathtt{data\_link\_protocol}, \mathtt{network\_protocol}, \mathtt{application\_protocol} \}$$
 
-- $$\beta(\text{uses},\, p) = \mathtt{String},\quad \forall p \in \{ \mathtt{transport\_protocol}, \mathtt{session\_protocol}, \mathtt{presentation\_protocol}, \mathtt{application\_protocol} \}$$
+- $$\beta(\text{uses}, p) = \mathtt{String},\quad \forall p \in \{ \mathtt{transport\_protocol}, \mathtt{session\_protocol}, \mathtt{presentation\_protocol}, \mathtt{application\_protocol} \}$$
 
 At this point, it is necessary to determine which of the above configurations $\beta(\cdot,\cdot)$ belong to the special sets $P_m$ (mandatory properties), $P_o$ (optional properties), or $P_u$ (properties with unique values):
 
 - $((\cdot, \cdot), id) \in P_u$
 - $\forall x \in \{ ((\cdot, \cdot), name),\; ((\cdot, \cdot), asset\_type) \},\; x \in P_m$
-- $$
-    \forall x \in \left\{
+- $$\forall x \in \left\{
     \begin{array}{l}
     (connects, data\_link\_protocol),
     (connects, network\_protocol), \\
@@ -102,8 +101,7 @@ At this point, it is necessary to determine which of the above configurations $\
     (uses, presentation\_protocol), \\
     (uses, application\_protocol)
     \end{array}
-    \right\},\; x \in P_o
-    $$
+    \right\},\; x \in P_o$$
 
 Since $P_u \subseteq P_m$, the property $id$ is both unique and mandatory. The cardinality of each property is defined by the function $Cardinality(\cdot,p)$ and reported in the following table.
 
@@ -144,7 +142,7 @@ This constraint relies on the snapshot assumption of the MACM model (see Model D
 
 The following semantic sonstraint requires that each  $\mathtt{uses}$ relationship between two nodes must be supported by an alternative communication path that does not itself depend on a $\mathtt{uses}$ or an $\mathtt{interacts}$ edge. This ensures that functional dependencies are semantically meaningful only when there exists a viable infrastructure or network path that enables actual communication.
 
-Let $M = (N,E,\rho,\lambda_N,\lambda_E,\sigma)$ a MACM property graph and $M' = (N,E',\rho,\lambda_N,\lambda_E,\sigma)$ the subgraph of $M$ with $E' = \bigl\{ e \in E \mid \lambda_E(e) \notin \{ \mathtt{uses}, \mathtt{interacts} \} \bigr\}$, then $\forall e \in E$, where $\lambda_E(e)=\mathtt{uses}$ and $\rho(e)=(n_s,n_t)$, exists a path in $M'$ from $n_s$ to $n_t$.
+Let $M = (N,E,\rho,\lambda_N,\lambda_E,\sigma)$ a MACM property graph and $M' = (N,E',\rho,\lambda_N,\lambda_E,\sigma)$ the subgraph of $M$ with $E' = \bigl\\{ e \in E \mid \lambda_E(e) \notin \{ \mathtt{uses}, \mathtt{interacts} \} \bigr\\}$, then $\forall e \in E$, where $\lambda_E(e)=\mathtt{uses}$ and $\rho(e)=(n_s,n_t)$, exists a path in $M'$ from $n_s$ to $n_t$.
 
 ### SystemLayer hosting SystemLayer node validity
 
