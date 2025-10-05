@@ -83,8 +83,8 @@ $$
 
 The following configuration applies:
 
-- $$ \beta(\text{connects},\, p) = \mathtt{String},\quad \forall p \in \{ \mathtt{data\_link\_protocol}, \mathtt{network\_protocol}, \mathtt{application\_protocol} \} $$
-- $$ \beta(\text{uses},\, p) = \mathtt{String},\quad \forall p \in \{ \mathtt{transport\_protocol}, \mathtt{session\_protocol}, \mathtt{presentation\_protocol}, \mathtt{application\_protocol} \} $$
+- $$\beta(\text{connects},\, p) = \mathtt{String},\quad \forall p \in \{ \mathtt{data\_link\_protocol}, \mathtt{network\_protocol}, \mathtt{application\_protocol} \}$$
+- $$\beta(\text{uses},\, p) = \mathtt{String},\quad \forall p \in \{ \mathtt{transport\_protocol}, \mathtt{session\_protocol}, \mathtt{presentation\_protocol}, \mathtt{application\_protocol} \}$$
 
 At this point, it is necessary to determine which of the above configurations $\beta(\cdot,\cdot)$ belong to the special sets $P_m$ (mandatory properties), $P_o$ (optional properties), or $P_u$ (properties with unique values):
 
