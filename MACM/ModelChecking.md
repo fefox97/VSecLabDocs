@@ -2,6 +2,8 @@
 title: Model Processing and Evaluation
 ---
 
+# Model Processing and Evaluation
+
 The formalization of the MACM model as a property graph enables us to adopt [Neo4j](https://neo4j.com), a graph database that fully implements the characteristics of a Property Graph as a basis for both storing, automatically verify correctness of the models and update the models, granting their syntactic and semantic coherence.
 
 ## Storing and manipulating a MACM
