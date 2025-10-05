@@ -49,7 +49,7 @@ The primary labels of the source and target nodes, together with the relationshi
 
 ## Properties
 
-The Property configuration within the schema is defined through the function $\beta$, as introduced in the *Macm Property Graph Schema*, that assigns to each pair $(PrimaryLabel,\allowbreak~SecondaryLabel)$ or to each edge type the admissible properties and their corresponding datatype.
+The Property configuration within the schema is defined through the function $\beta$, as introduced in the *Macm Property Graph Schema*, that assigns to each pair $(PrimaryLabel,~SecondaryLabel)$ or to each edge type the admissible properties and their corresponding datatype.
 
 According to the definition, we would need to list a potentially long set of entries of the form $\beta\bigl((x,y),p\bigr)=q$, where $x$ is the primary label, $y$ is the secondary label, $p$ is the property, and $q$ is the datatype. Since these properties apply to all nodes regardless of type, we will use the wildcard pair $(*,*)$ to denote all node types and thus simplify the configuration.
 
@@ -147,7 +147,7 @@ Let $ M = (N,E,\rho,\lambda_N,\lambda_E,\sigma) $ a MACM property graph and $ M'
 
 ### SystemLayer hosting SystemLayer node validity
 
-We introduce constraints for *SystemLayer* nodes, representing middleware. This primary label includes four asset types: $\mathtt{SystemLayer.OS}$ (e.g., Operating System), $\mathtt{SystemLayer.Firmware}$, $\mathtt{SystemLayer.ContainerRuntime}$ (e.g., Docker), and $\mathtt{SystemLayer.Hyper\allowbreak Visor}$ (e.g., Xen, VMware).
+We introduce constraints for *SystemLayer* nodes, representing middleware. This primary label includes four asset types: $\mathtt{SystemLayer.OS}$ (e.g., Operating System), $\mathtt{SystemLayer.Firmware}$, $\mathtt{SystemLayer.ContainerRuntime}$ (e.g., Docker), and $\mathtt{SystemLayer.HyperVisor}$ (e.g., Xen, VMware).
 First, we constrain the $\delta(\mathtt{SystemLayer, SystemLayer})=\mathtt{hosts}$ pattern from Relationship Pattern Validity. A $\mathtt{SystemLayer.OS}$ may host a $\mathtt{SystemLayer.ContainerRuntime}$ or a $\mathtt{SystemLayer.HyperVisor}$, but other direct hosting between *SystemLayer* nodes is invalid. For instance, a *HyperVisor* cannot host an *OS* without an intermediate *Virtual* node.
 The following rule defines that a
 $\mathtt{SystemLayer.OS}$ can host only $\mathtt{SystemLayer.ContainerRuntime}$ or $\mathtt{SystemLayer.HyperVisor}$ nodes.
@@ -206,7 +206,7 @@ $$
 
 At this point, we define a constraint for the edge parameters related to protocols. The list of supported protocols is available [online](https://pennet.vseclab.it/catalogs/protocols). For each protocol, the type of relationship to which it applies, its corresponding layer in the ISO/OSI stack, and a brief description are provided. Therefore, the following constraint must hold.
 
-Let $Y \subseteq R \times P \times V$ be the set of triples $(r, o, v)$ representing the protocols allowed in the MACM, where $r$ is a type of relationship (e.g., $\mathtt{uses}$), $o$ is a property key associated with a layer of the ISO/OSI model (e.g., $application\allowbreak\_protocol$), and $v$ is the name of a valid protocol (e.g., HTTP).
+Let $Y \subseteq R \times P \times V$ be the set of triples $(r, o, v)$ representing the protocols allowed in the MACM, where $r$ is a type of relationship (e.g., $\mathtt{uses}$), $o$ is a property key associated with a layer of the ISO/OSI model (e.g., $application\_protocol$), and $v$ is the name of a valid protocol (e.g., HTTP).
 
 $$
     \forall e \in E,\; \forall p \in O \subseteq P,\; \big( \lambda_E(e) \in \{ \mathtt{connects}, \mathtt{uses} \} \land (e, p) \in \mathrm{dom}(\sigma) \big) \implies  \forall v \in \sigma(e, p),\; (\lambda_E(e), p, v) \in Y
