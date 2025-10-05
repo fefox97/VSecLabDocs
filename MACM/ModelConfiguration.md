@@ -12,7 +12,7 @@ We define the set of admissible primary labels $L_P = \{ \mathtt{Party}, \mathtt
 
 ## Secondary Labels
 
-For each $ \ell_p \in L_P $, the associated secondary label set $LS(\ell_p) \subseteq L_S $ are:
+For each $\ell_p \in L_P$, the associated secondary label set $LS(\ell_p) \subseteq L_S$ are:
 
 $$
 \begin{aligned}
@@ -58,8 +58,8 @@ We now introduce the following definition, useful for expressing some constraint
 
 ### Asset Type Set
     
-Let $T$ be the set of Asset Types in the MACM model. Each asset type $ t \in T $ is uniquely associated with a primary label $ \ell_p \in L_P $ and a secondary label $ \ell_s \in L_S \cup \{ \emptyset \} $.
-We define a total mapping $ \tau : T \rightarrow L_P \times (L_S \cup \{ \emptyset \}) $ such that for each asset type $ t \in T$, we have $\tau(t) = (\ell_p, \ell_s)$.
+Let $T$ be the set of Asset Types in the MACM model. Each asset type $t \in T$ is uniquely associated with a primary label $\ell_p \in L_P$ and a secondary label $\ell_s \in L_S \cup \{ \emptyset \}$.
+We define a total mapping $\tau : T \rightarrow L_P \times (L_S \cup \{ \emptyset \})$ such that for each asset type $t \in T$, we have $\tau(t) = (\ell_p, \ell_s)$.
 
 Therefore, the following configurations apply to the nodes:
 
@@ -143,7 +143,7 @@ This constraint relies on the snapshot assumption of the MACM model (see Model D
 
 The following semantic sonstraint requires that each  $\mathtt{uses}$ relationship between two nodes must be supported by an alternative communication path that does not itself depend on a $\mathtt{uses}$ or an $\mathtt{interacts}$ edge. This ensures that functional dependencies are semantically meaningful only when there exists a viable infrastructure or network path that enables actual communication.
 
-Let $ M = (N,E,\rho,\lambda_N,\lambda_E,\sigma) $ a MACM property graph and $ M' = (N,E',\rho,\lambda_N,\lambda_E,\sigma) $ the subgraph of $M$ with $ E' = \bigl\{ e \in E \mid \lambda_E(e) \notin \{ \mathtt{uses}, \mathtt{interacts} \} \bigr\} $, then $ \forall e \in E$, where $\lambda_E(e)=\mathtt{uses}$ and $\rho(e)=(n_s,n_t)$, exists a path in $M'$ from $n_s$ to $n_t$.
+Let $M = (N,E,\rho,\lambda_N,\lambda_E,\sigma)$ a MACM property graph and $M' = (N,E',\rho,\lambda_N,\lambda_E,\sigma)$ the subgraph of $M$ with $E' = \bigl\{ e \in E \mid \lambda_E(e) \notin \{ \mathtt{uses}, \mathtt{interacts} \} \bigr\}$, then $\forall e \in E$, where $\lambda_E(e)=\mathtt{uses}$ and $\rho(e)=(n_s,n_t)$, exists a path in $M'$ from $n_s$ to $n_t$.
 
 ### SystemLayer hosting SystemLayer node validity
 
@@ -153,7 +153,7 @@ The following rule defines that a
 $\mathtt{SystemLayer.OS}$ can host only $\mathtt{SystemLayer.ContainerRuntime}$ or $\mathtt{SystemLayer.HyperVisor}$ nodes.
 
 $$
-    \forall e \in E,  \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = \lambda_N(n_t) = \mathtt{(SystemLayer, \cdot)} \big) \implies \big( \sigma(n_s, \mathtt{asset\_type}) = \mathtt{"SystemLayer.OS"} \;\land 
+    \forall e \in E,  \big( \lambda_E(e) = \mathtt{"hosts"} \land \rho(e) = (n_s, n_t) \land \lambda_N(n_s) = \lambda_N(n_t) = \mathtt{(SystemLayer, \cdot)} \big) \implies \big( \sigma(n_s, \mathtt{asset\_type}) = \mathtt{"SystemLayer.OS"} \land
     \sigma(n_t, \mathtt{asset\_type}) \in \{ \mathtt{"SystemLayer.ContainerRuntime"}, \mathtt{"SystemLayer.HyperVisor"} \} \big)
 $$
 
