@@ -14,7 +14,7 @@ We define the set of admissible primary labels $L_P = \{ \mathtt{Party}, \mathtt
 
 For each $ \ell_p \in L_P $, the associated secondary label set $LS(\ell_p) \subseteq L_S $ are:
 
-$$
+
 \begin{align}
     LS(\mathtt{Network}) &= \{ \mathtt{WAN}, \mathtt{LAN}, \mathtt{PAN} \} \\
     LS(\mathtt{CSP}) &= \emptyset\\
@@ -25,7 +25,7 @@ $$
     LS(\mathtt{Party}) &= \{ \mathtt{Human}, \mathtt{LegalEntity}, \mathtt{Group} \} \\
     LS(\mathtt{HW}) &= \{ \mathtt{Server}, \mathtt{IoT}, \mathtt{Device}, \mathtt{Microcontroller}, \mathtt{SOC}, \mathtt{MEC}, \mathtt{PC} \}
 \end{align}
-$$
+
 
 ## Relationship Types
 
