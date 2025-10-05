@@ -56,7 +56,7 @@ In our scenario, we modified the MACM presented above, as shown in the figure be
 
 As in evidence, this MACM isolates the exact nodes and relationships from your MACM and intentionally omits any $\mathtt{connects}$ (or other non-$\mathtt{uses}$) path between `UE` and `Sonoff`, thus reproducing a concrete violation of the constraint.
 
-The implementation of APOC Neo4j triggers additionally provides safeguards against incorrect MACM modifications, such as the addition of invalid components or relationships. This capability proves essential for the cyclical penetration testing methodology outlined above and exemplified in \cref{sec:cyclicalmethodology}.
+The implementation of APOC Neo4j triggers additionally provides safeguards against incorrect MACM modifications, such as the addition of invalid components or relationships. This capability proves essential for the cyclical penetration testing methodology outlined above.
 The complete list of triggers is available [here]().
 Note that the verification that the edges belong to the list $\mathtt{uses}, \mathtt{interacts}, \mathtt{provides}, \mathtt{connects}, \mathtt{hosts}$ is implicitly handled in the implementation of the rule described in Relationship Pattern Validity table, which represents a more stringent requirement by not only restricting the edges to that list but also enforcing constraints on the primary labels of both the source and target nodes.
 Note also that the triggers are employed not only to enforce semantic constraints, but also to handle structural constraints, thereby ensuring a consistent implementation.
