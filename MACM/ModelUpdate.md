@@ -2,24 +2,6 @@
 title: Automatic Model Update
 ---
 
-# Citation
-
-> 📢 Please use the following citation when referring to MACM:
-> ```bibtex
-> @article{moretta_correct_2026,
->   title = {Correct by design, complete by iteration: {A} graph-based framework for automated security assessment},
->   volume = {36},
->   issn = {2542-6605},
->   url = {https://www.sciencedirect.com/science/article/pii/S2542660525003658},
->   doi = {https://doi.org/10.1016/j.iot.2025.101851},
->   journal = {Internet of Things},
->   author = {Moretta, Felice and Barbato, Umberto and Rak, Massimiliano and Granata, Daniele},
->   year = {2026},
->   keywords = {Security, Security Assessment, Threat Modeling, CAPEC, Internet of Things, Penetration Testing, IoT, System Modeling},
->   pages = {101851},
-> }
-> ```
-
 # Automatic Model Update
 
 The MACM supports automated updating, i.e. given an initial system model it is possible to apply a transformation able to enrich the model with new information and/or take into account changes in the system (as an example a change in deployment).
@@ -33,3 +15,21 @@ The flowchart of the process is shown in the figure below.
 
 The choice of which production to apply in each case depends on the tool used to perform the attack. Accordingly, each entry in the Tool Catalogue is associated with a dedicated parser that implements a corresponding production. It is important to emphasize that productions are designed to always yield a graph that is valid with respect to the formalization introduced in the Model Definition. Nevertheless, inconsistencies may still arise, so validation triggers are automatically executed to detect and handle such inconsistencies whenever they occur.
 It is worth noting that, different production rules will be needed, depending on the type of changes that data discovery or deployment changes implies.
+
+# Citation
+
+📢 Please use the following citation when referring to MACM:
+```bibtex
+@article{moretta_correct_2026,
+	title = {Correct by design, complete by iteration: {A} graph-based framework for automated security assessment},
+	volume = {36},
+	issn = {2542-6605},
+	url = {https://www.sciencedirect.com/science/article/pii/S2542660525003658},
+	doi = {https://doi.org/10.1016/j.iot.2025.101851},
+	journal = {Internet of Things},
+	author = {Moretta, Felice and Barbato, Umberto and Rak, Massimiliano and Granata, Daniele},
+	year = {2026},
+	keywords = {Security, Security Assessment, Threat Modeling, CAPEC, Internet of Things, Penetration Testing, IoT, System Modeling},
+	pages = {101851},
+}
+```

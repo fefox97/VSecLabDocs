@@ -2,24 +2,6 @@
 title: Model Processing and Evaluation
 ---
 
-# Citation
-
-> 📢 Please use the following citation when referring to MACM:
-> ```bibtex
-> @article{moretta_correct_2026,
->   title = {Correct by design, complete by iteration: {A} graph-based framework for automated security assessment},
->   volume = {36},
->   issn = {2542-6605},
->   url = {https://www.sciencedirect.com/science/article/pii/S2542660525003658},
->   doi = {https://doi.org/10.1016/j.iot.2025.101851},
->   journal = {Internet of Things},
->   author = {Moretta, Felice and Barbato, Umberto and Rak, Massimiliano and Granata, Daniele},
->   year = {2026},
->   keywords = {Security, Security Assessment, Threat Modeling, CAPEC, Internet of Things, Penetration Testing, IoT, System Modeling},
->   pages = {101851},
-> }
-> ```
-
 # Model Processing and Evaluation
 
 The formalization of the MACM model as a property graph enables us to adopt [Neo4j](https://neo4j.com), a graph database that fully implements the characteristics of a Property Graph as a basis for both storing, automatically verify correctness of the models and update the models, granting their syntactic and semantic coherence.
@@ -78,3 +60,21 @@ The implementation of APOC Neo4j triggers additionally provides safeguards again
 The complete list of triggers is available [here]().
 Note that the verification that the edges belong to the list $\mathtt{uses}, \mathtt{interacts}, \mathtt{provides}, \mathtt{connects}, \mathtt{hosts}$ is implicitly handled in the implementation of the rule described in Relationship Pattern Validity table, which represents a more stringent requirement by not only restricting the edges to that list but also enforcing constraints on the primary labels of both the source and target nodes.
 Note also that the triggers are employed not only to enforce semantic constraints, but also to handle structural constraints, thereby ensuring a consistent implementation.
+
+# Citation
+
+📢 Please use the following citation when referring to MACM:
+```bibtex
+@article{moretta_correct_2026,
+	title = {Correct by design, complete by iteration: {A} graph-based framework for automated security assessment},
+	volume = {36},
+	issn = {2542-6605},
+	url = {https://www.sciencedirect.com/science/article/pii/S2542660525003658},
+	doi = {https://doi.org/10.1016/j.iot.2025.101851},
+	journal = {Internet of Things},
+	author = {Moretta, Felice and Barbato, Umberto and Rak, Massimiliano and Granata, Daniele},
+	year = {2026},
+	keywords = {Security, Security Assessment, Threat Modeling, CAPEC, Internet of Things, Penetration Testing, IoT, System Modeling},
+	pages = {101851},
+}
+```

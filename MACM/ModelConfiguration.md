@@ -2,24 +2,6 @@
 title: Model Configuration
 ---
 
-# Citation
-
-> 📢 Please use the following citation when referring to MACM:
-> ```bibtex
-> @article{moretta_correct_2026,
->   title = {Correct by design, complete by iteration: {A} graph-based framework for automated security assessment},
->   volume = {36},
->   issn = {2542-6605},
->   url = {https://www.sciencedirect.com/science/article/pii/S2542660525003658},
->   doi = {https://doi.org/10.1016/j.iot.2025.101851},
->   journal = {Internet of Things},
->   author = {Moretta, Felice and Barbato, Umberto and Rak, Massimiliano and Granata, Daniele},
->   year = {2026},
->   keywords = {Security, Security Assessment, Threat Modeling, CAPEC, Internet of Things, Penetration Testing, IoT, System Modeling},
->   pages = {101851},
-> }
-> ```
-
 # Schema Configuration
 
 So far, we have provided the definition of a MACM model as a Property Graph and formalized its schema. At this point, the remaining step is to configure the schema by explicitly specifying all the sets defined above.
@@ -220,3 +202,21 @@ $$
 $$
 
 At this stage, the reader should have gathered that, in the simplest form of a MACM, each node is characterized by a *Primary Label*, an (optional) *Secondary Label*, and an *Asset Type*, where these three elements describe, at different levels, the type of asset that the node represents. In addition, there is an *id* (unique) and a *name* describing the asset. Clearly, further properties can be added as needed. As for the edges, they are simply characterized by a type, the pair of nodes they connect and, optionally, properties related to protocols.
+
+# Citation
+
+📢 Please use the following citation when referring to MACM:
+```bibtex
+@article{moretta_correct_2026,
+	title = {Correct by design, complete by iteration: {A} graph-based framework for automated security assessment},
+	volume = {36},
+	issn = {2542-6605},
+	url = {https://www.sciencedirect.com/science/article/pii/S2542660525003658},
+	doi = {https://doi.org/10.1016/j.iot.2025.101851},
+	journal = {Internet of Things},
+	author = {Moretta, Felice and Barbato, Umberto and Rak, Massimiliano and Granata, Daniele},
+	year = {2026},
+	keywords = {Security, Security Assessment, Threat Modeling, CAPEC, Internet of Things, Penetration Testing, IoT, System Modeling},
+	pages = {101851},
+}
+```

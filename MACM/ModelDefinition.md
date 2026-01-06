@@ -10,21 +10,22 @@ The MACM (Multi-purpose Application Composition Model) is a graph-based formalis
 
 In general, a MACM is a **Property Graph**, namely a graph in which each node/arc is characterized by some *labels* and *properties*. From the semantic perspective, each node of the graph represents an asset of the SuA, while each edge represents a relationship between two assets.
 
-> 📢 Please use the following citation when referring to MACM:
-> ```bibtex
-> @article{moretta_correct_2026,
->   title = {Correct by design, complete by iteration: {A} graph-based framework for automated security assessment},
->   volume = {36},
->   issn = {2542-6605},
->   url = {https://www.sciencedirect.com/science/article/pii/S2542660525003658},
->   doi = {https://doi.org/10.1016/j.iot.2025.101851},
->   journal = {Internet of Things},
->   author = {Moretta, Felice and Barbato, Umberto and Rak, Massimiliano and Granata, Daniele},
->   year = {2026},
->   keywords = {Security, Security Assessment, Threat Modeling, CAPEC, Internet of Things, Penetration Testing, IoT, System Modeling},
->   pages = {101851},
-> }
-> ```
+
+📢 Please use the following citation when referring to MACM:
+```bibtex
+@article{moretta_correct_2026,
+	title = {Correct by design, complete by iteration: {A} graph-based framework for automated security assessment},
+	volume = {36},
+	issn = {2542-6605},
+	url = {https://www.sciencedirect.com/science/article/pii/S2542660525003658},
+	doi = {https://doi.org/10.1016/j.iot.2025.101851},
+	journal = {Internet of Things},
+	author = {Moretta, Felice and Barbato, Umberto and Rak, Massimiliano and Granata, Daniele},
+	year = {2026},
+	keywords = {Security, Security Assessment, Threat Modeling, CAPEC, Internet of Things, Penetration Testing, IoT, System Modeling},
+	pages = {101851},
+}
+```
 
 
 ## Modeling Assumptions
