@@ -2,6 +2,22 @@
 title: Automatic Model Update
 ---
 
+> 📢 Please use the following citation when referring to MACM:
+> ```bibtex
+> @article{moretta_correct_2026,
+>   title = {Correct by design, complete by iteration: {A} graph-based framework for automated security assessment},
+>   volume = {36},
+>   issn = {2542-6605},
+>   url = {https://www.sciencedirect.com/science/article/pii/S2542660525003658},
+>   doi = {https://doi.org/10.1016/j.iot.2025.101851},
+>   journal = {Internet of Things},
+>   author = {Moretta, Felice and Barbato, Umberto and Rak, Massimiliano and Granata, Daniele},
+>   year = {2026},
+>   keywords = {Security, Security Assessment, Threat Modeling, CAPEC, Internet of Things, Penetration Testing, IoT, System Modeling},
+>   pages = {101851},
+> }
+> ```
+
 # Automatic Model Update
 
 The MACM supports automated updating, i.e. given an initial system model it is possible to apply a transformation able to enrich the model with new information and/or take into account changes in the system (as an example a change in deployment).

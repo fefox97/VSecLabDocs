@@ -2,6 +2,22 @@
 title: Model Processing and Evaluation
 ---
 
+> 📢 Please use the following citation when referring to MACM:
+> ```bibtex
+> @article{moretta_correct_2026,
+>   title = {Correct by design, complete by iteration: {A} graph-based framework for automated security assessment},
+>   volume = {36},
+>   issn = {2542-6605},
+>   url = {https://www.sciencedirect.com/science/article/pii/S2542660525003658},
+>   doi = {https://doi.org/10.1016/j.iot.2025.101851},
+>   journal = {Internet of Things},
+>   author = {Moretta, Felice and Barbato, Umberto and Rak, Massimiliano and Granata, Daniele},
+>   year = {2026},
+>   keywords = {Security, Security Assessment, Threat Modeling, CAPEC, Internet of Things, Penetration Testing, IoT, System Modeling},
+>   pages = {101851},
+> }
+> ```
+
 # Model Processing and Evaluation
 
 The formalization of the MACM model as a property graph enables us to adopt [Neo4j](https://neo4j.com), a graph database that fully implements the characteristics of a Property Graph as a basis for both storing, automatically verify correctness of the models and update the models, granting their syntactic and semantic coherence.
