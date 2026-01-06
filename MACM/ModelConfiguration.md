@@ -2,6 +2,8 @@
 title: Model Configuration
 ---
 
+# Citation
+
 > 📢 Please use the following citation when referring to MACM:
 > ```bibtex
 > @article{moretta_correct_2026,
